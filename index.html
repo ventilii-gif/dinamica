@@ -80,6 +80,35 @@ svg.sim{width:100%;height:auto;background:#fafcff;border:1px solid var(--border)
 .home-card strong{color:var(--primary-d);display:block;margin-bottom:.15rem}
 .home-card span{color:var(--muted);font-size:.88em}
 .kbd{font-family:ui-monospace,monospace;background:#eef3fb;padding:.05em .35em;border-radius:3px;font-size:.9em}
+nav.subtabs{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem}
+nav.subtabs button{flex:0 0 auto;background:var(--surface);border:1px solid var(--border);
+  padding:.5rem .85rem;border-radius:999px;font-size:.9em;cursor:pointer;
+  color:var(--muted);min-height:38px;font-family:inherit}
+nav.subtabs button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+nav.subtabs button.done::after{content:" ✓";font-weight:700;color:#2e7d32}
+nav.subtabs button.active.done::after{color:#fff}
+.subpane{display:none}
+.subpane.active{display:block}
+.quiz-q{padding:.85rem 0;border-top:1px solid var(--border)}
+.quiz-q:first-of-type{border-top:0;padding-top:.2rem}
+.quiz-q .qt{font-weight:600;margin:0 0 .5rem;line-height:1.4}
+.quiz-q .opt{display:block;width:100%;text-align:left;background:var(--surface);
+  border:1.5px solid var(--border);border-radius:8px;padding:.55rem .8rem;margin:.3rem 0;
+  cursor:pointer;min-height:42px;font:inherit;color:inherit}
+.quiz-q .opt:hover:not(:disabled){border-color:var(--primary)}
+.quiz-q .opt.right{border-color:#2e7d32;background:#e8f5e9}
+.quiz-q .opt.wrong{border-color:#c62828;background:#ffebee}
+.quiz-q .opt:disabled{cursor:default;opacity:.95}
+.quiz-q .fb{margin-top:.4rem;padding:.45rem .7rem;border-radius:6px;font-size:.92em}
+.quiz-q .fb.right{background:#c8e6c9;color:#1b5e20}
+.quiz-q .fb.wrong{background:#fff3e0;color:#bf360c}
+.qprog{font-size:.92em;color:var(--muted);margin:.2rem 0 .9rem;font-variant-numeric:tabular-nums}
+.qsum{margin-top:1rem;padding:.85rem;border-radius:8px;text-align:center;font-weight:700;font-size:1.02em}
+.qsum.gold{background:#fff8e1;color:#7b5e00}
+.qsum.silver{background:#eceff1;color:#37474f}
+.qsum.bronze{background:#efebe9;color:#3e2723}
+.qreset{margin-top:.9rem;background:transparent;border:1.5px solid var(--primary);color:var(--primary);
+  border-radius:8px;padding:.5rem 1rem;font:inherit;font-weight:600;cursor:pointer;min-height:40px}
 @media(max-width:480px){main{padding:.7rem}.card{padding:.85rem}}
 </style>
 </head>
@@ -114,6 +143,12 @@ svg.sim{width:100%;height:auto;background:#fafcff;border:1px solid var(--border)
 </section>
 
 <section class="scene" id="funi">
+  <nav class="subtabs" data-scen="funi">
+    <button data-sub="teoria" class="active">📖 Teoria</button>
+    <button data-sub="sim">🎛️ Simulazione</button>
+    <button data-sub="quiz">📝 Quiz</button>
+  </nav>
+  <div class="subpane teoria active">
   <div class="card">
     <h2>🪢 Corpo appeso a funi</h2>
     <h3>Caso 1 — fune verticale</h3>
@@ -127,6 +162,8 @@ svg.sim{width:100%;height:auto;background:#fafcff;border:1px solid var(--border)
     <div class="formula">T₁ = m g · cos β / sin(α+β)   ·   T₂ = m g · cos α / sin(α+β)</div>
     <div class="tip">📐 Caso simmetrico (α = β): T = mg / (2 sin α). Più piccolo è l'angolo, più grandi diventano le tensioni — per questo le funi tese quasi orizzontali si spezzano.</div>
   </div>
+  </div><!-- /teoria funi -->
+  <div class="subpane sim">
   <div class="card">
     <h2>Simulazione</h2>
     <div class="ctrl">
@@ -143,9 +180,19 @@ svg.sim{width:100%;height:auto;background:#fafcff;border:1px solid var(--border)
     </div>
     <div class="eqs ok">✓ Sistema in equilibrio (per costruzione)</div>
   </div>
+  </div><!-- /sim funi -->
+  <div class="subpane quiz">
+    <div class="card" id="qFuni"></div>
+  </div>
 </section>
 
 <section class="scene" id="orizz">
+  <nav class="subtabs" data-scen="orizz">
+    <button data-sub="teoria" class="active">📖 Teoria</button>
+    <button data-sub="sim">🎛️ Simulazione</button>
+    <button data-sub="quiz">📝 Quiz</button>
+  </nav>
+  <div class="subpane teoria active">
   <div class="card">
     <h2>📏 Piano orizzontale con attrito</h2>
     <p>Sul piano orizzontale agiscono: peso <em>P = mg</em> verso il basso, reazione vincolare <em>N</em> verso l'alto, una forza applicata <em>F</em> (eventualmente inclinata di un angolo <em>θ</em> rispetto al piano), e l'attrito <em>f<sub>a</sub></em>.</p>
@@ -156,6 +203,8 @@ svg.sim{width:100%;height:auto;background:#fafcff;border:1px solid var(--border)
     <div class="formula">F cos θ ≤ μ<sub>s</sub> · N</div>
     <div class="tip">🔍 Tirando con un angolo verso l'alto si <em>scarica</em> il piano (N diminuisce) e con esso la massima forza d'attrito disponibile: c'è un angolo ottimale che minimizza la forza necessaria a far muovere il corpo.</div>
   </div>
+  </div><!-- /teoria orizz -->
+  <div class="subpane sim">
   <div class="card">
     <h2>Simulazione</h2>
     <div class="ctrl">
@@ -179,9 +228,19 @@ svg.sim{width:100%;height:auto;background:#fafcff;border:1px solid var(--border)
     </div>
     <div class="eqs" id="orStat">—</div>
   </div>
+  </div><!-- /sim orizz -->
+  <div class="subpane quiz">
+    <div class="card" id="qOrizz"></div>
+  </div>
 </section>
 
 <section class="scene" id="inclin">
+  <nav class="subtabs" data-scen="inclin">
+    <button data-sub="teoria" class="active">📖 Teoria</button>
+    <button data-sub="sim">🎛️ Simulazione</button>
+    <button data-sub="quiz">📝 Quiz</button>
+  </nav>
+  <div class="subpane teoria active">
   <div class="card">
     <h2>⛰️ Piano inclinato</h2>
     <p>Su un piano inclinato di angolo <em>θ</em> conviene scegliere gli assi <strong>parallelo</strong> e <strong>perpendicolare</strong> al piano. Il peso si scompone in:</p>
@@ -196,6 +255,8 @@ svg.sim{width:100%;height:auto;background:#fafcff;border:1px solid var(--border)
     <div class="formula">θ<sub>lim</sub> = arctan(μ<sub>s</sub>)</div>
     <div class="tip">🧗 È il principio del piano inclinato come "macchina semplice": serve meno forza per sollevare un corpo lungo il piano che verticalmente.</div>
   </div>
+  </div><!-- /teoria inclin -->
+  <div class="subpane sim">
   <div class="card">
     <h2>Simulazione</h2>
     <div class="ctrl">
@@ -220,9 +281,19 @@ svg.sim{width:100%;height:auto;background:#fafcff;border:1px solid var(--border)
     </div>
     <div class="eqs" id="inStat">—</div>
   </div>
+  </div><!-- /sim inclin -->
+  <div class="subpane quiz">
+    <div class="card" id="qInclin"></div>
+  </div>
 </section>
 
 <section class="scene" id="molla">
+  <nav class="subtabs" data-scen="molla">
+    <button data-sub="teoria" class="active">📖 Teoria</button>
+    <button data-sub="sim">🎛️ Simulazione</button>
+    <button data-sub="quiz">📝 Quiz</button>
+  </nav>
+  <div class="subpane teoria active">
   <div class="card">
     <h2>🌀 Forze elastiche — legge di Hooke</h2>
     <p>Una molla di costante elastica <em>k</em> deformata di <em>Δx</em> esercita una forza di <strong>richiamo</strong>:</p>
@@ -237,6 +308,8 @@ svg.sim{width:100%;height:auto;background:#fafcff;border:1px solid var(--border)
     <div class="formula">k · Δx = m g sin θ</div>
     <div class="tip">🪀 La costante <em>k</em> si misura in N/m: dice di quanti newton aumenta la forza elastica per ogni metro di deformazione.</div>
   </div>
+  </div><!-- /teoria molla -->
+  <div class="subpane sim">
   <div class="card">
     <h2>Simulazione</h2>
     <div class="ctrl">
@@ -262,6 +335,10 @@ svg.sim{width:100%;height:auto;background:#fafcff;border:1px solid var(--border)
     </div>
     <div class="read" id="moRead"></div>
     <div class="eqs" id="moStat">—</div>
+  </div>
+  </div><!-- /sim molla -->
+  <div class="subpane quiz">
+    <div class="card" id="qMolla"></div>
   </div>
 </section>
 
@@ -668,6 +745,251 @@ bindRange('moK','moKv');
 bindRange('moT','moTv');
 bindRange('moU','moUv', v=>v.toFixed(2));
 bindRange('moD','moDv', v=>v.toFixed(2));
+
+// ============ SUB-TABS (per scenario) ============
+document.querySelectorAll('nav.subtabs').forEach(nav=>{
+  const scen = nav.dataset.scen;
+  const section = document.getElementById(scen);
+  nav.addEventListener('click', e=>{
+    const btn = e.target.closest('button[data-sub]');
+    if(!btn) return;
+    const sub = btn.dataset.sub;
+    nav.querySelectorAll('button').forEach(b=>b.classList.toggle('active', b===btn));
+    section.querySelectorAll(':scope > .subpane').forEach(p=>{
+      p.classList.toggle('active', p.classList.contains(sub));
+    });
+  });
+});
+
+// ============ QUIZ ============
+const QUIZZES = {
+  funi: [
+    { q:"Un corpo è in equilibrio statico quando…",
+      opts:["tutte le forze applicate sono nulle",
+            "la somma vettoriale di tutte le forze è zero",
+            "il peso è bilanciato dalla velocità",
+            "le componenti orizzontali delle forze sono nulle"],
+      ok:1,
+      fb:{r:"Esatto: ΣF = 0. Possono esserci anche molte forze, l'importante è che la loro somma vettoriale sia nulla.",
+          w:"Equilibrio non significa assenza di forze, ma RISULTANTE nulla: ΣF = 0."}},
+    { q:"Un corpo di massa 5,0 kg è appeso a una fune verticale. Quanto vale la tensione della fune? (g = 9,81 m/s²)",
+      opts:["5,0 N","9,81 N","49,1 N","98,2 N"],
+      ok:2,
+      fb:{r:"Corretto: T bilancia il peso, quindi T = m·g = 5,0 · 9,81 ≈ 49,1 N.",
+          w:"Per una fune verticale T = m·g = 5,0 · 9,81 ≈ 49,1 N (occhio a non confondere massa in kg con peso in N)."}},
+    { q:"Un quadro è appeso a due funi simmetriche. Se l'angolo che esse formano col soffitto DIMINUISCE (le funi diventano più orizzontali), le tensioni…",
+      opts:["diminuiscono","rimangono invariate","aumentano","si annullano"],
+      ok:2,
+      fb:{r:"Sì: T = mg/(2 sin α). Se α → 0, sin α → 0 e T → ∞. È perché non si tendono mai funi 'piatte'.",
+          w:"Pensa alla formula T = mg/(2 sin α). Se α diminuisce, sin α diminuisce e T CRESCE."}},
+    { q:"Un lampadario di 4,0 kg è sospeso a due funi simmetriche che formano 30° col soffitto. Quanto vale la tensione di ciascuna fune?",
+      opts:["19,6 N","39,2 N","78,5 N","9,81 N"],
+      ok:1,
+      fb:{r:"Bene! T = mg/(2 sin α) = (4·9,81)/(2·sin 30°) = 39,24/1 ≈ 39,2 N.",
+          w:"Caso simmetrico: T = mg/(2 sin α). Con α=30°, sin30°=0,5: T = (4·9,81)/(2·0,5) ≈ 39,2 N."}},
+    { q:"Due funi sostengono un corpo: la sx è più verticale (60° col soffitto), la dx più obliqua (30°). Allora…",
+      opts:["la tensione è uguale nelle due funi",
+            "la fune di sinistra ha tensione maggiore",
+            "la fune di destra ha tensione maggiore",
+            "una delle funi è scarica"],
+      ok:1,
+      fb:{r:"Esatto: la fune più verticale 'porta' più peso. T₁ = mg cos β / sin(α+β) > T₂.",
+          w:"Più una fune è verticale, più del peso sostiene. Sx (60°) è più verticale di dx (30°), quindi T_sx > T_dx."}}
+  ],
+  orizz: [
+    { q:"Un corpo di massa m è fermo su un piano orizzontale, senza forze inclinate applicate. Quanto vale la reazione normale N?",
+      opts:["0","mg","mg/2","μ·mg"],
+      ok:1,
+      fb:{r:"Sì: il piano sostiene il peso. ΣFy = 0 → N = mg.",
+          w:"ΣFy = 0 → N − mg = 0 → N = mg. Senza altre forze verticali, la normale uguaglia il peso."}},
+    { q:"Massa 10 kg su piano orizzontale, μs = 0,30. Forza orizzontale massima per tenerlo fermo? (g=9,81)",
+      opts:["3,0 N","9,8 N","29,4 N","98 N"],
+      ok:2,
+      fb:{r:"Corretto: F_max = μs·N = μs·mg = 0,30 · 10 · 9,81 ≈ 29,4 N.",
+          w:"Limite di equilibrio: F = μs·N = μs·mg = 0,30 · 10 · 9,81 ≈ 29,4 N."}},
+    { q:"Tirando un corpo con una forza inclinata verso l'ALTO di angolo θ rispetto al piano, la reazione normale N…",
+      opts:["aumenta","diminuisce","rimane invariata","si annulla sempre"],
+      ok:1,
+      fb:{r:"Sì! ΣFy = 0 → N = mg − F sin θ: la componente verticale della forza scarica il piano.",
+          w:"Se F ha una componente verso l'alto, contribuisce a sostenere il corpo: N = mg − F sin θ DIMINUISCE."}},
+    { q:"Spingendo invece con una forza inclinata verso il BASSO di angolo θ, la massima forza d'attrito disponibile…",
+      opts:["diminuisce","aumenta","non cambia","diventa negativa"],
+      ok:1,
+      fb:{r:"Sì: la spinta verso il basso aumenta N e quindi anche f_max = μs·N.",
+          w:"Spingendo verso il basso 'carichi' il piano: N e f_max = μs·N AUMENTANO."}},
+    { q:"Un blocco di 5 kg è fermo su un piano orizzontale (μs = 0,40). NESSUNA forza orizzontale è applicata. Quanto vale la forza d'attrito che agisce su di esso?",
+      opts:["μs · mg = 19,6 N","0 N","mg = 49,1 N","μs · m = 2 N"],
+      ok:1,
+      fb:{r:"Esatto! L'attrito statico fornisce SOLO la forza necessaria per l'equilibrio: se non c'è nulla da bilanciare, vale 0.",
+          w:"μs·N è solo il VALORE MASSIMO dell'attrito statico, non quello attuale. Senza forze applicate, l'attrito è ZERO."}}
+  ],
+  inclin: [
+    { q:"Su un piano inclinato di angolo θ, la componente del peso PARALLELA al piano (lungo la pendenza) vale…",
+      opts:["mg cos θ","mg sin θ","mg tan θ","mg"],
+      ok:1,
+      fb:{r:"Esatto: P∥ = mg sin θ. Più ripido il piano, più grande è questa componente.",
+          w:"La componente parallela (quella che 'fa scivolare') è P∥ = mg sin θ. Per θ=0 deve essere 0."}},
+    { q:"…e la componente PERPENDICOLARE al piano?",
+      opts:["mg cos θ","mg sin θ","mg / cos θ","0"],
+      ok:0,
+      fb:{r:"Bene: P⊥ = mg cos θ, ed è quella bilanciata dalla reazione normale: N = mg cos θ.",
+          w:"P⊥ = mg cos θ. Suggerimento: per θ=0 (piano orizzontale) deve dare mg."}},
+    { q:"Un corpo è posato su un piano inclinato di 30° SENZA attrito. Cosa succede?",
+      opts:["resta fermo","scivola verso il basso","si solleva","dipende dalla massa"],
+      ok:1,
+      fb:{r:"Esatto: senza attrito non c'è forza che bilanci P∥ = mg sin θ, qualunque sia la massa.",
+          w:"Senza attrito nulla bilancia la componente parallela del peso: SCIVOLA, indipendentemente dalla massa."}},
+    { q:"Massa 4,0 kg su un piano inclinato a 25° SENZA attrito. Quale forza F parallela al piano (verso l'alto) la tiene in equilibrio? (g=9,81)",
+      opts:["9,8 N","16,6 N","35,5 N","39,2 N"],
+      ok:1,
+      fb:{r:"Sì: F deve bilanciare P∥ = mg sin θ = 4 · 9,81 · sin25° ≈ 16,6 N.",
+          w:"Senza attrito: F = mg sin θ = 4 · 9,81 · sin25° ≈ 4 · 9,81 · 0,423 ≈ 16,6 N."}},
+    { q:"L'angolo limite oltre il quale un corpo scivola su un piano inclinato vale θ_lim = arctan(μs). Se μs = 1, quanto vale θ_lim?",
+      opts:["30°","45°","60°","90°"],
+      ok:1,
+      fb:{r:"Bene: arctan(1) = 45°. A 45° le componenti parallela e perpendicolare del peso sono uguali.",
+          w:"θ_lim = arctan(1) = 45°. (Suggerimento: a 45°, sin θ = cos θ, quindi mg sin θ = μs · mg cos θ con μs=1.)"}}
+  ],
+  molla: [
+    { q:"Una molla con k = 200 N/m si allunga di 5,0 cm. Modulo della forza elastica?",
+      opts:["10 N","100 N","1000 N","0,4 N"],
+      ok:0,
+      fb:{r:"Sì: |F_el| = k·|Δx| = 200 · 0,05 m = 10 N.",
+          w:"Attenzione alle unità: 5,0 cm = 0,05 m. F_el = k·Δx = 200·0,05 = 10 N."}},
+    { q:"Una massa di 1,0 kg è appesa a una molla verticale (k = 100 N/m). Allungamento all'equilibrio? (g=9,81)",
+      opts:["0,98 cm","9,8 cm","98 cm","9,8 m"],
+      ok:1,
+      fb:{r:"Esatto: Δx = mg/k = 9,81/100 = 0,0981 m ≈ 9,8 cm.",
+          w:"Equilibrio verticale: k·Δx = mg → Δx = mg/k = 9,81/100 ≈ 0,098 m = 9,8 cm."}},
+    { q:"La forza esercitata da una molla deformata è sempre…",
+      opts:["costante in modulo",
+            "diretta verso la posizione di riposo (forza di richiamo)",
+            "nello stesso verso della deformazione",
+            "massima quando la molla è a riposo"],
+      ok:1,
+      fb:{r:"Sì: F = −k·Δx. Il segno meno indica che la forza si oppone alla deformazione.",
+          w:"La molla cerca sempre di tornare alla lunghezza di riposo: la forza elastica è una forza di RICHIAMO, opposta a Δx."}},
+    { q:"Una molla parallela a un piano inclinato (senza attrito) sostiene un corpo. La sua deformazione di equilibrio è proporzionale a…",
+      opts:["cos θ","sin θ","tan θ","1 (è costante)"],
+      ok:1,
+      fb:{r:"Esatto: equilibrio lungo il piano: k·Δx = mg sin θ → Δx ∝ sin θ. Per θ=0 (piano orizzontale) Δx=0.",
+          w:"Lungo il piano: k·Δx = mg sin θ. Quindi Δx = (mg/k)·sin θ, proporzionale a sin θ."}},
+    { q:"Massa 2,0 kg su piano orizzontale (μs = 0,20), attaccata a una molla (k = 50 N/m) allungata di 10 cm. Si muove o resta fermo? (g=9,81)",
+      opts:["resta fermo","si muove","oscilla a frequenza fissa","non si può determinare"],
+      ok:1,
+      fb:{r:"F_el = 50·0,10 = 5 N. Max attrito = μs·mg = 0,20·2·9,81 ≈ 3,9 N. F_el (5 N) > attrito_max (3,9 N) → SI MUOVE.",
+          w:"Confronta: F_el = k·Δx = 50·0,10 = 5 N vs. attrito_max = μs·mg ≈ 3,9 N. Poiché 5 > 3,9, il corpo SI MUOVE."}}
+  ]
+};
+
+const SUB_LABELS = { funi:'qFuni', orizz:'qOrizz', inclin:'qInclin', molla:'qMolla' };
+
+function loadQuizState(scen){
+  try { return JSON.parse(localStorage.getItem('quiz-'+scen) || '{}'); }
+  catch(e){ return {}; }
+}
+function saveQuizState(scen, state){
+  try { localStorage.setItem('quiz-'+scen, JSON.stringify(state)); } catch(e){}
+}
+
+function buildQuiz(scen){
+  const container = document.getElementById(SUB_LABELS[scen]);
+  const items = QUIZZES[scen];
+  let html = `<h2>📝 Quiz · ${items.length} domande</h2>
+    <p style="margin:.2rem 0 .8rem;color:var(--muted);font-size:.92em">Scegli la risposta che ritieni corretta. Avrai un riscontro immediato — anche se sbagli, leggi la spiegazione: serve a fissare il concetto.</p>
+    <div class="qprog" id="qprog_${scen}">—</div>
+    <div class="quiz-list">`;
+  items.forEach((it,i)=>{
+    html += `<div class="quiz-q" data-q="${i}">
+      <p class="qt">${i+1}. ${it.q}</p>`;
+    it.opts.forEach((o,j)=>{
+      const letter = String.fromCharCode(97+j); // a,b,c,d
+      html += `<button class="opt" data-i="${j}"><b>${letter})</b> ${o}</button>`;
+    });
+    html += `<div class="fb" hidden></div></div>`;
+  });
+  html += `</div>
+    <div id="qsum_${scen}"></div>
+    <button class="qreset" data-scen="${scen}">↻ Ricomincia il quiz</button>`;
+  container.innerHTML = html;
+  container.addEventListener('click', e=>{
+    const opt = e.target.closest('.opt');
+    if(opt){ handleAnswer(scen, opt); return; }
+    const reset = e.target.closest('.qreset');
+    if(reset){ resetQuiz(scen); return; }
+  });
+  // Restore saved state
+  const state = loadQuizState(scen);
+  Object.keys(state).forEach(k=>{
+    const idx = +k;
+    const choice = state[k];
+    const qd = container.querySelector(`.quiz-q[data-q="${idx}"]`);
+    if(qd) applyAnswerToDOM(scen, qd, choice, /*save*/false);
+  });
+  updateQuizProgress(scen);
+}
+
+function applyAnswerToDOM(scen, qDiv, choice, save){
+  if(qDiv.classList.contains('answered')) return;
+  const idx = +qDiv.dataset.q;
+  const it = QUIZZES[scen][idx];
+  const right = (choice === it.ok);
+  qDiv.classList.add('answered');
+  qDiv.querySelectorAll('.opt').forEach((o,j)=>{
+    o.disabled = true;
+    if(j === it.ok) o.classList.add('right');
+    if(j === choice && !right) o.classList.add('wrong');
+  });
+  const fb = qDiv.querySelector('.fb');
+  fb.hidden = false;
+  fb.className = 'fb '+(right?'right':'wrong');
+  fb.textContent = (right?'✓ ':'✗ ') + (right ? it.fb.r : it.fb.w);
+  if(save){
+    const st = loadQuizState(scen);
+    st[idx] = choice;
+    saveQuizState(scen, st);
+  }
+}
+
+function handleAnswer(scen, btn){
+  const qDiv = btn.closest('.quiz-q');
+  if(qDiv.classList.contains('answered')) return;
+  const choice = +btn.dataset.i;
+  applyAnswerToDOM(scen, qDiv, choice, true);
+  updateQuizProgress(scen);
+}
+
+function updateQuizProgress(scen){
+  const items = QUIZZES[scen];
+  const state = loadQuizState(scen);
+  const answered = Object.keys(state).length;
+  let correct = 0;
+  Object.keys(state).forEach(k=>{ if(+state[k] === items[+k].ok) correct++; });
+  const prog = document.getElementById('qprog_'+scen);
+  if(prog) prog.textContent = `Risposte: ${answered}/${items.length} · Corrette: ${correct}`;
+  const sum = document.getElementById('qsum_'+scen);
+  if(sum){
+    if(answered === items.length){
+      let cls='bronze', msg;
+      if(correct === items.length){ cls='gold'; msg='🏆 Perfetto! '+correct+'/'+items.length+' — hai padroneggiato l\'argomento.'; }
+      else if(correct >= Math.ceil(items.length*0.6)){ cls='silver'; msg='👏 Bene! '+correct+'/'+items.length+' — rivedi i punti che hai sbagliato e riprova.'; }
+      else { msg='💪 '+correct+'/'+items.length+' — riguarda la teoria e ritenta: ce la farai!'; }
+      sum.className='qsum '+cls; sum.textContent=msg;
+    } else { sum.className=''; sum.textContent=''; }
+  }
+  // Mark sub-tab as done if completed
+  const allDone = answered === items.length;
+  document.querySelectorAll(`nav.subtabs[data-scen="${scen}"] button[data-sub="quiz"]`).forEach(b=>{
+    b.classList.toggle('done', allDone);
+  });
+}
+
+function resetQuiz(scen){
+  localStorage.removeItem('quiz-'+scen);
+  buildQuiz(scen);
+}
+
+['funi','orizz','inclin','molla'].forEach(buildQuiz);
 
 // ----- Initial render -----
 renderFuni(); renderOrizz(); renderInclin(); renderMolla();
