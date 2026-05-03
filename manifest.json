@@ -1,0 +1,27 @@
+{
+  "name": "Equilibrio · Fisica per il liceo",
+  "short_name": "Equilibrio",
+  "description": "Web app didattica sulle condizioni di equilibrio dei corpi (funi, piano orizzontale, piano inclinato, forze elastiche).",
+  "lang": "it",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4f7fb",
+  "theme_color": "#1565c0",
+  "categories": ["education", "science"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
