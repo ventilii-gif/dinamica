@@ -14,8 +14,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <style>
 :root{
-  --bg:#f4f7fb;--surface:#fff;--primary:#1565c0;--primary-d:#0d47a1;--accent:#ff7043;
-  --text:#1a1a2e;--muted:#5b6378;--border:#d6dce8;--shadow:0 2px 6px rgba(0,0,0,.08);
+  --bg:#ffffff;--surface:#ffffff;--primary:#1565c0;--primary-d:#0d47a1;--accent:#ff7043;
+  --text:#1a1a2e;--muted:#5b6378;--border:#d6dce8;--card-edge:#ff8a65;--shadow:0 2px 6px rgba(0,0,0,.06);
   --vT:#1565c0;--vP:#e53935;--vN:#2e7d32;--vF:#f57c00;--vFa:#7b1fa2;--vFe:#00897b;
 }
 *{box-sizing:border-box}
@@ -27,16 +27,16 @@ header{background:linear-gradient(135deg,var(--primary),var(--primary-d));color:
 header h1{margin:0;font-size:clamp(1.15rem,4.5vw,1.55rem)}
 header .sub{font-size:.85em;opacity:.85}
 nav.main{background:var(--surface);display:flex;overflow-x:auto;
-  border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5;
+  border-bottom:2px solid var(--card-edge);position:sticky;top:0;z-index:5;
   scrollbar-width:thin}
 nav.main button{flex:0 0 auto;background:none;border:0;padding:.85rem 1rem;
   font-size:.95em;color:var(--muted);border-bottom:3px solid transparent;
-  cursor:pointer;white-space:nowrap;min-height:44px}
+  cursor:pointer;white-space:nowrap;min-height:44px;margin-bottom:-2px}
 nav.main button.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
 main{padding:1rem;max-width:880px;margin:0 auto}
 section.scene{display:none}
 section.scene.active{display:block}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+.card{background:var(--surface);border:1px solid var(--card-edge);border-radius:12px;
   padding:1rem;margin-bottom:1rem;box-shadow:var(--shadow)}
 .card h2{margin-top:0;color:var(--primary-d);font-size:1.15em}
 .card h3{margin:.8rem 0 .3rem;color:var(--primary-d);font-size:1em}
@@ -72,7 +72,7 @@ svg.sim{width:100%;height:auto;background:#fafcff;border:1px solid var(--border)
   background:#f0f4fa;padding:.18rem .5rem;border-radius:999px}
 .legend span i{display:inline-block;width:14px;height:3px;background:currentColor;border-radius:2px}
 .home-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.7rem}
-.home-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+.home-card{background:var(--surface);border:1px solid var(--card-edge);border-radius:12px;
   padding:.9rem;cursor:pointer;box-shadow:var(--shadow);text-align:left;font-size:1em;
   font-family:inherit;color:inherit}
 .home-card:hover{border-color:var(--primary)}
