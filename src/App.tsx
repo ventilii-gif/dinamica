@@ -1,45 +1,34 @@
 import { createContext, useContext, useState } from 'react'
-import { i18n, type Lang } from './i18n'
 import Home from './sections/Home'
-import SpaceTime from './sections/SpaceTime'
-import Dynamics from './sections/Dynamics'
-import Invariants from './sections/Invariants'
-import MinkowskiSection from './sections/MinkowskiSection'
+import LeggiNewton from './sections/LeggiNewton'
+import PianoOrizzontale from './sections/PianoOrizzontale'
+import PianoInclinato from './sections/PianoInclinato'
+import Attrito from './sections/Attrito'
+import ApplicazioniCombinate from './sections/ApplicazioniCombinate'
 
-type Section = 'home' | 'spaceTime' | 'dynamics' | 'invariants' | 'minkowski'
+export type Section = 'home' | 'newton' | 'orizzontale' | 'inclinato' | 'attrito' | 'applicazioni'
 
-interface LangCtx { lang: Lang; setLang: (l: Lang) => void }
-export const LangContext = createContext<LangCtx>({ lang: 'it', setLang: () => {} })
-export const useLang = () => useContext(LangContext)
+interface NavCtx { section: Section; setSection: (s: Section) => void }
+export const NavContext = createContext<NavCtx>({ section: 'home', setSection: () => {} })
+export const useNav = () => useContext(NavContext)
+
+const navItems: { key: Section; label: string }[] = [
+  { key: 'home',         label: '🏠 Home' },
+  { key: 'newton',       label: '⚡ Leggi di Newton' },
+  { key: 'orizzontale',  label: '➡️ Piano Orizzontale' },
+  { key: 'inclinato',    label: '↗️ Piano Inclinato' },
+  { key: 'attrito',      label: '🔴 Attrito' },
+  { key: 'applicazioni', label: '🔗 Applicazioni' },
+]
 
 export default function App() {
-  const [lang, setLang] = useState<Lang>('it')
   const [section, setSection] = useState<Section>('home')
-  const t = i18n[lang]
-
-  const navItems: { key: Section; label: string }[] = [
-    { key: 'home', label: t.nav.home },
-    { key: 'spaceTime', label: t.nav.spaceTime },
-    { key: 'dynamics', label: t.nav.dynamics },
-    { key: 'invariants', label: t.nav.invariants },
-    { key: 'minkowski', label: t.nav.minkowski },
-  ]
 
   return (
-    <LangContext.Provider value={{ lang, setLang }}>
+    <NavContext.Provider value={{ section, setSection }}>
       <header className="header">
         <div className="header-brand">
-          ✦ <span>Relatività</span> Speciale
-        </div>
-        <div className="lang-toggle">
-          <button
-            className={`lang-btn${lang === 'it' ? ' active' : ''}`}
-            onClick={() => setLang('it')}
-          >IT</button>
-          <button
-            className={`lang-btn${lang === 'en' ? ' active' : ''}`}
-            onClick={() => setLang('en')}
-          >EN</button>
+          ⚡ <span>Principi</span> della Dinamica
         </div>
       </header>
 
@@ -55,13 +44,14 @@ export default function App() {
         ))}
       </nav>
 
-      <main key={`${section}-${lang}`} className="section-enter">
-        {section === 'home'       && <Home onNavigate={setSection} />}
-        {section === 'spaceTime'  && <SpaceTime />}
-        {section === 'dynamics'   && <Dynamics />}
-        {section === 'invariants' && <Invariants />}
-        {section === 'minkowski'  && <MinkowskiSection />}
+      <main key={section} className="section-enter">
+        {section === 'home'         && <Home onNavigate={setSection} />}
+        {section === 'newton'       && <LeggiNewton />}
+        {section === 'orizzontale'  && <PianoOrizzontale />}
+        {section === 'inclinato'    && <PianoInclinato />}
+        {section === 'attrito'      && <Attrito />}
+        {section === 'applicazioni' && <ApplicazioniCombinate />}
       </main>
-    </LangContext.Provider>
+    </NavContext.Provider>
   )
 }
