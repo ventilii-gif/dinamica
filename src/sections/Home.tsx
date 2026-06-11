@@ -1,101 +1,74 @@
-import { i18n } from '../i18n'
-import { useLang } from '../App'
-
-type Section = 'home' | 'spaceTime' | 'dynamics' | 'invariants' | 'minkowski'
-
-const sectionKeys: Section[] = ['spaceTime', 'dynamics', 'invariants', 'minkowski']
+import type { Section } from '../App'
 
 interface Props { onNavigate: (s: Section) => void }
 
-export default function Home({ onNavigate }: Props) {
-  const { lang } = useLang()
-  const t = i18n[lang].home
+const cards: { key: Section; icon: string; title: string; sub: string }[] = [
+  { key: 'newton',       icon: '⚡', title: 'Leggi di Newton',            sub: 'Inerzia, F=ma, azione-reazione' },
+  { key: 'orizzontale',  icon: '➡️', title: 'Piano Orizzontale',          sub: 'Moto con e senza attrito, velocità iniziale qualsiasi' },
+  { key: 'inclinato',    icon: '↗️', title: 'Piano Inclinato',             sub: 'Forze lungo il piano, angolo e attrito' },
+  { key: 'attrito',      icon: '🔴', title: 'Attrito Statico e Dinamico', sub: 'μₛ e μₖ, la transizione dal riposo al moto' },
+  { key: 'applicazioni', icon: '🔗', title: 'Applicazioni Combinate',     sub: 'Problemi reali con tutti i concetti' },
+]
 
+export default function Home({ onNavigate }: Props) {
   return (
     <>
       <div className="home-hero">
-        <h1>{t.title}</h1>
-        <p>{t.subtitle}</p>
-
+        <h1>Principi della Dinamica</h1>
+        <p>
+          Studia il moto degli oggetti sotto l'azione delle forze. Dalle tre leggi di Newton
+          ai piani inclinati con attrito, con simulazioni interattive e quiz di verifica.
+        </p>
         <blockquote style={{
-          fontStyle: 'italic',
-          color: 'var(--accent)',
-          fontSize: '0.95rem',
-          maxWidth: 520,
-          margin: '0 auto',
-          lineHeight: 1.6,
-          borderLeft: '3px solid var(--accent)',
-          paddingLeft: '1rem',
-          textAlign: 'left'
+          fontStyle: 'italic', color: 'var(--accent)', fontSize: '0.95rem',
+          maxWidth: 520, margin: '0 auto', lineHeight: 1.6,
+          borderLeft: '3px solid var(--accent)', paddingLeft: '1rem', textAlign: 'left'
         }}>
-          {t.quote}
+          "Se ho visto più lontano, è perché stavo sulle spalle di giganti."
           <br />
           <span style={{ fontStyle: 'normal', fontWeight: 600, color: 'var(--muted)', fontSize: '0.85rem' }}>
-            {t.quoteBy}
+            — Isaac Newton
           </span>
         </blockquote>
       </div>
 
       <div className="home-grid">
-        {sectionKeys.map((key, i) => {
-          const card = t.cards[i]
-          return (
-            <button key={key} className="home-card" onClick={() => onNavigate(key)}>
-              <span className="home-card-icon">{card.icon}</span>
-              <span className="home-card-title">{card.title}</span>
-              <span className="home-card-sub">{card.sub}</span>
-            </button>
-          )
-        })}
+        {cards.map(({ key, icon, title, sub }) => (
+          <button key={key} className="home-card" onClick={() => onNavigate(key)}>
+            <span className="home-card-icon">{icon}</span>
+            <span className="home-card-title">{title}</span>
+            <span className="home-card-sub">{sub}</span>
+          </button>
+        ))}
       </div>
 
       <div className="card" style={{ marginTop: '1.5rem' }}>
-        <h2>
-          {lang === 'it' ? '🚀 Come funziona questa app' : '🚀 How this app works'}
-        </h2>
+        <h2>🚀 Come usare questa app</h2>
         <p>
-          {lang === 'it'
-            ? 'Ogni sezione ha tre parti: teoria con formule e esempi, una simulazione interattiva in cui puoi esplorare i concetti con cursori e grafici, e un quiz finale per testare la tua comprensione.'
-            : 'Each section has three parts: theory with formulas and examples, an interactive simulation where you can explore concepts with sliders and graphs, and a final quiz to test your understanding.'}
+          Ogni sezione ha <strong style={{ color: 'var(--primary)' }}>tre parti</strong>: una sezione di
+          <strong style={{ color: 'var(--primary)' }}> teoria</strong> con formule ed esempi numerici;
+          una <strong style={{ color: 'var(--green)' }}>simulazione interattiva</strong> con animazione 2D
+          e grafici sincronizzati; un <strong style={{ color: 'var(--accent)' }}>quiz finale</strong> da 8 domande.
         </p>
         <div className="info-box tip">
           <span className="info-box-icon">💡</span>
-          <span>
-            {lang === 'it'
-              ? 'Consiglio: inizia dalla simulazione — muovi i cursori e osserva cosa cambia. La teoria diventerà intuitiva.'
-              : 'Tip: start from the simulation — move the sliders and observe what changes. The theory will become intuitive.'}
-          </span>
-        </div>
-        <div className="info-box example">
-          <span className="info-box-icon">🎬</span>
-          <span>
-            {lang === 'it'
-              ? 'Trovi esempi reali (GPS, muoni, LHC) e riferimenti a film come Interstellar per ancorare ogni concetto alla realtà.'
-              : 'You\'ll find real examples (GPS, muons, LHC) and references to films like Interstellar to anchor each concept to reality.'}
-          </span>
+          <span>Consiglio: inizia dalla simulazione — muovi i cursori e osserva cosa cambia. La teoria diventa intuitiva.</span>
         </div>
       </div>
 
-      {/* Quick facts */}
       <div className="card">
-        <h2>{lang === 'it' ? '✨ Fatti che ti stupiranno' : '✨ Facts that will amaze you'}</h2>
-        <div style={{ display: 'grid', gap: '0.6rem' }}>
-          {(lang === 'it' ? [
-            ['⏱️', 'A β = 0.99c, il tempo scorre 7× più lento su un razzo rispetto alla Terra'],
-            ['📏', 'La Stazione Spaziale ISS è lunga ~0.00000001% in meno di quanto sarebbe a riposo'],
-            ['⚡', '1 kg di massa convertita al 100%: abbastanza energia per tutto il fabbisogno italiano per ~3 anni'],
-            ['🌌', 'I protoni del LHC completano 11.245 giri al secondo — a β = 0.999999991c'],
-            ['🛰️', 'I satelliti GPS hanno bisogno di correzioni relativistiche: senza, l\'errore di posizione sarebbe >10 km/giorno'],
-          ] : [
-            ['⏱️', 'At β = 0.99c, time runs 7× slower on a rocket compared to Earth'],
-            ['📏', 'The ISS is ~0.00000001% shorter than it would be at rest'],
-            ['⚡', '1 kg of mass fully converted: enough energy for Italy\'s entire consumption for ~3 years'],
-            ['🌌', 'LHC protons complete 11,245 laps per second — at β = 0.999999991c'],
-            ['🛰️', 'GPS satellites need relativistic corrections: without them, position error would be >10 km/day'],
-          ]).map(([icon, text], i) => (
-            <div key={i} style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start', fontSize: '0.92rem' }}>
+        <h2>✨ Lo sapevi?</h2>
+        <div style={{ display: 'grid', gap: '0.65rem' }}>
+          {[
+            ['🚗', 'Un\'auto che frena da 100 km/h a 0 in 4 s ha un\'accelerazione media di −6.9 m/s² (circa 0.7 g)'],
+            ['🏔️', 'Su un piano inclinato di 30° senza attrito, qualsiasi oggetto accelera a 4.9 m/s² — la metà di g'],
+            ['🛷', 'Il ghiaccio ha μ_c ≈ 0.03: per questo le slitte scivolano così bene!'],
+            ['🚀', 'Un Falcon 9 pesa ~550 000 kg al lancio e i motori producono ~7 700 000 N di spinta'],
+            ['⚽', 'Un pallone calciato a 30 m/s su erba asciutta (μ ≈ 0.5) percorre circa 91 m prima di fermarsi'],
+          ].map(([icon, text], i) => (
+            <div key={i} style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start', fontSize: '0.91rem' }}>
               <span style={{ fontSize: '1.1rem' }}>{icon}</span>
-              <span style={{ color: 'var(--text)' }}>{text}</span>
+              <span>{text}</span>
             </div>
           ))}
         </div>
