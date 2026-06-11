@@ -56,14 +56,14 @@ export default function Quiz({ title, questions }: QuizProps) {
 
   if (done) {
     const pct = Math.round((score / questions.length) * 100)
-    const icon = pct === 100 ? '🏆' : pct >= 67 ? '⭐' : '💪'
+    const msg = pct === 100 ? 'Perfetto!' : pct >= 67 ? 'Ottimo lavoro.' : 'Riprova per migliorare.'
     return (
       <div className="quiz-card">
         <div className="quiz-title">{title}</div>
         <div className="quiz-score">
-          <div className="quiz-score-num">{icon} {score}/{questions.length}</div>
-          <div className="quiz-score-msg">{pct}% corretto</div>
-          <button className="btn" style={{ marginTop: '1rem' }} onClick={reset}>🔄 Riprova</button>
+          <div className="quiz-score-num">{score}/{questions.length}</div>
+          <div className="quiz-score-msg">{pct}% corretto &mdash; {msg}</div>
+          <button className="btn" style={{ marginTop: '1rem' }} onClick={reset}>Riprova</button>
         </div>
       </div>
     )
@@ -87,14 +87,14 @@ export default function Quiz({ title, questions }: QuizProps) {
           )
         })}
       </div>
-      {answered && <div className="quiz-explanation">💡 {q.exp}</div>}
+      {answered && <div className="quiz-explanation">{q.exp}</div>}
       <div className="quiz-nav">
         <span className="quiz-progress">{current + 1} / {questions.length}</span>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          {current > 0 && <button className="btn btn-ghost" onClick={prev}>← Indietro</button>}
+          {current > 0 && <button className="btn btn-ghost" onClick={prev}>Indietro</button>}
           {answered && (
             <button className="btn" onClick={next}>
-              {current < questions.length - 1 ? 'Avanti →' : 'Risultati 🏁'}
+              {current < questions.length - 1 ? 'Avanti' : 'Risultati'}
             </button>
           )}
         </div>
