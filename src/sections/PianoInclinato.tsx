@@ -6,22 +6,18 @@ const G = 9.8
 const T_MAX = 8
 const N_PTS = 80
 
-function calcInclined(theta: number, m: number, mu: number, v0: number) {
+function calcInclined(theta: number, m: number, mu: number, _v0: number) {
   const rad = (theta * Math.PI) / 180
   const sinT = Math.sin(rad)
   const cosT = Math.cos(rad)
   const N = m * G * cosT
-  const Fpar = m * G * sinT           // down the slope
-  const Fattr = mu * N                // kinetic friction
-  // Friction opposes velocity (or opposes tendency to move)
-  // If object moves or tends to move DOWN: friction acts UP
-  // sign convention: positive = down the slope
+  const Fpar = m * G * sinT
+  const Fattr = mu * N
   const aDown = G * (sinT - mu * cosT)
   return { aDown, N, Fpar, Fattr, sinT, cosT }
 }
 
 function stateAt(a: number, v0: number, t: number) {
-  // v positive = moving down the slope
   if (a >= 0 && v0 >= 0) {
     return { v: v0 + a * t, s: v0 * t + 0.5 * a * t * t }
   }
@@ -44,23 +40,18 @@ function InclinedScene({ theta, m, mu, v0, t }: { theta: number; m: number; mu: 
   const { aDown, N, Fpar, Fattr } = calcInclined(theta, m, mu, v0)
   const { s } = stateAt(aDown, v0, t)
 
-  // Draw inclined plane
   const ox = 30, oy = H - 30
   const hyp = W - 80
   const ex = ox + hyp
   const ey = oy - hyp * Math.tan(rad)
 
-  // Block position along slope (clamped)
   const maxS = Math.max(1, Math.abs(v0) * T_MAX + 0.5 * Math.abs(aDown) * T_MAX * T_MAX)
   const frac = Math.max(0, Math.min(s / maxS, 0.85))
-  const bLen = 36, bHalf = bLen / 2
-  // Center of block on slope
+  const bLen = 36
   const cx = ox + hyp * (0.1 + frac * 0.75)
   const cy = oy - (cx - ox) * Math.tan(rad)
 
-  // Perpendicular direction to slope (upward normal)
   const nx = -Math.sin(rad), ny = -Math.cos(rad)
-  // Block corners (tilted rectangle)
   const cos = Math.cos(rad), sin = Math.sin(rad)
   const corners = [
     [cx - bLen / 2 * cos + bLen / 2 * nx, cy + bLen / 2 * sin + bLen / 2 * ny],
@@ -72,18 +63,14 @@ function InclinedScene({ theta, m, mu, v0, t }: { theta: number; m: number; mu: 
   const blockCX = cx + bLen / 6 * nx
   const blockCY = cy + bLen / 6 * ny
 
-  // Force arrows from block center
-  const sc = 18 // scale
   const weightScale = 35
   const normScale = 28
   const frScale = 22
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg" style={{ background: 'rgba(0,0,0,0.4)' }}>
-      {/* Inclined surface */}
+    <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg">
       <polygon points={`${ox},${oy} ${ex},${ey} ${ex},${oy}`}
-        fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" />
-      {/* Friction lines on slope */}
+        fill="rgba(0,0,0,0.03)" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" />
       {mu > 0 && [...Array(10)].map((_, i) => {
         const px = ox + hyp * (0.05 + i * 0.09)
         const py = oy - (px - ox) * Math.tan(rad)
@@ -91,53 +78,46 @@ function InclinedScene({ theta, m, mu, v0, t }: { theta: number; m: number; mu: 
         return <line key={i}
           x1={px} y1={py}
           x2={px + off * sin} y2={py + off * cos}
-          stroke="rgba(255,213,79,0.25)" strokeWidth="1" />
+          stroke="rgba(180,130,0,0.2)" strokeWidth="1" />
       })}
-
-      {/* Angle arc */}
       <path d={`M ${ox + 30},${oy} A 30,30 0 0,0 ${ox + 30 * Math.cos(rad)},${oy - 30 * Math.sin(rad)}`}
-        fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-      <text x={ox + 38} y={oy - 10} fill="rgba(255,255,255,0.5)" fontSize="11">{theta}°</text>
+        fill="none" stroke="rgba(0,0,0,0.25)" strokeWidth="1" />
+      <text x={ox + 38} y={oy - 10} fill="rgba(0,0,0,0.45)" fontSize="11">{theta}°</text>
 
-      {/* Block */}
-      <polygon points={poly} fill="rgba(79,195,247,0.22)" stroke="#4fc3f7" strokeWidth="2" />
-      <text x={blockCX} y={blockCY + 4} textAnchor="middle" fill="#4fc3f7" fontSize="11" fontWeight="700">{m}kg</text>
+      <polygon points={poly} fill="rgba(37,99,235,0.12)" stroke="#2563eb" strokeWidth="2" />
+      <text x={blockCX} y={blockCY + 4} textAnchor="middle" fill="#2563eb" fontSize="11" fontWeight="700">{m}kg</text>
 
-      {/* Weight (down) */}
       <line x1={blockCX} y1={blockCY} x2={blockCX} y2={blockCY + weightScale}
-        stroke="#ff5252" strokeWidth="2.5" markerEnd="url(#arrW)" />
-      <text x={blockCX + 6} y={blockCY + weightScale / 2} fill="#ff5252" fontSize="9">P</text>
+        stroke="#c62828" strokeWidth="2.5" markerEnd="url(#arrW)" />
+      <text x={blockCX + 6} y={blockCY + weightScale / 2} fill="#c62828" fontSize="9">P</text>
 
-      {/* Normal force (perpendicular up) */}
       <line x1={blockCX} y1={blockCY}
         x2={blockCX + nx * normScale} y2={blockCY + ny * normScale}
-        stroke="#69f0ae" strokeWidth="2.5" markerEnd="url(#arrN)" />
-      <text x={blockCX + nx * normScale + 4} y={blockCY + ny * normScale - 4} fill="#69f0ae" fontSize="9">N</text>
+        stroke="#2e7d32" strokeWidth="2.5" markerEnd="url(#arrN)" />
+      <text x={blockCX + nx * normScale + 4} y={blockCY + ny * normScale - 4} fill="#2e7d32" fontSize="9">N</text>
 
-      {/* F_par (down slope) */}
       <line x1={blockCX} y1={blockCY}
         x2={blockCX + cos * frScale} y2={blockCY - sin * frScale}
-        stroke="#ffd54f" strokeWidth="1.5" strokeDasharray="4 2" markerEnd="url(#arrP)" />
-      <text x={blockCX + cos * frScale + 4} y={blockCY - sin * frScale} fill="#ffd54f" fontSize="8">F∥</text>
+        stroke="#1565c0" strokeWidth="1.5" strokeDasharray="4 2" markerEnd="url(#arrP)" />
+      <text x={blockCX + cos * frScale + 4} y={blockCY - sin * frScale} fill="#1565c0" fontSize="8">F∥</text>
 
-      {/* Friction (up slope if moving down, else 0) */}
       {mu > 0 && aDown !== 0 && (
         <>
           <line x1={blockCX} y1={blockCY}
             x2={blockCX - cos * frScale * 0.8} y2={blockCY + sin * frScale * 0.8}
-            stroke="#ff7043" strokeWidth="2" markerEnd="url(#arrFr)" />
-          <text x={blockCX - cos * frScale - 4} y={blockCY + sin * frScale + 10} fill="#ff7043" fontSize="8">Fₐ</text>
+            stroke="#e05600" strokeWidth="2" markerEnd="url(#arrFr)" />
+          <text x={blockCX - cos * frScale - 4} y={blockCY + sin * frScale + 10} fill="#e05600" fontSize="8">Fₐ</text>
         </>
       )}
 
       <defs>
-        <marker id="arrW" markerWidth="6" markerHeight="6" refX="3" refY="5" orient="auto"><polygon points="0,0 6,0 3,6" fill="#ff5252" /></marker>
-        <marker id="arrN" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto"><polygon points="0,6 6,6 3,0" fill="#69f0ae" /></marker>
-        <marker id="arrP" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0,0 6,3 0,6" fill="#ffd54f" /></marker>
-        <marker id="arrFr" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><polygon points="6,0 0,3 6,6" fill="#ff7043" /></marker>
+        <marker id="arrW" markerWidth="6" markerHeight="6" refX="3" refY="5" orient="auto"><polygon points="0,0 6,0 3,6" fill="#c62828" /></marker>
+        <marker id="arrN" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto"><polygon points="0,6 6,6 3,0" fill="#2e7d32" /></marker>
+        <marker id="arrP" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0,0 6,3 0,6" fill="#1565c0" /></marker>
+        <marker id="arrFr" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><polygon points="6,0 0,3 6,6" fill="#e05600" /></marker>
       </defs>
 
-      <text x={W / 2} y={H - 8} textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="10">
+      <text x={W / 2} y={H - 8} textAnchor="middle" fill="rgba(0,0,0,0.4)" fontSize="10">
         a = {aDown.toFixed(2)} m/s² · N = {N.toFixed(1)} N · F∥ = {Fpar.toFixed(1)} N · Fₐ = {Fattr.toFixed(1)} N
       </text>
     </svg>
@@ -160,20 +140,20 @@ const quizQ = [
   {
     q: "Con θ = 45°, μ = 0.5, g = 9.8 m/s². L'accelerazione lungo il piano vale:",
     opts: ["4.9 m/s²", "3.46 m/s²", "0 m/s²", "2.4 m/s²"],
-    correct: 2,
-    exp: "a = g(sin45° − μ·cos45°) = 9.8(0.707 − 0.5×0.707) = 9.8×0.707×0.5 = 3.46 m/s². Ma con μ = sinθ/cosθ = tanθ = 1 sarebbe a=0. Qui: a = 9.8×(0.707−0.354) = 3.46 m/s²."
+    correct: 1,
+    exp: "a = g(sin45° − μ·cos45°) = 9.8×0.707×0.5 = 3.46 m/s²."
   },
   {
     q: "Se sinθ < μ·cosθ, allora il blocco su un piano inclinato:",
     opts: ["Accelera verso il basso", "Non si muove da solo", "Rimbalza", "Levita"],
     correct: 1,
-    exp: "La condizione sinθ < μ·cosθ equivale a tanθ < μ: l'attrito è abbastanza grande da trattenere il blocco. Non si muove spontaneamente."
+    exp: "La condizione sinθ < μ·cosθ equivale a tanθ < μ: l'attrito è abbastanza grande da trattenere il blocco."
   },
   {
     q: "Blocco su piano a 37° (sin37°=0.6, cos37°=0.8), μ=0.25, g=9.8 m/s². L'accelerazione vale:",
     opts: ["3.92 m/s²", "5.88 m/s²", "1.96 m/s²", "0 m/s²"],
     correct: 0,
-    exp: "a = g(sin37° − μ·cos37°) = 9.8(0.6 − 0.25×0.8) = 9.8(0.6−0.2) = 9.8×0.4 = 3.92 m/s²."
+    exp: "a = g(sin37° − μ·cos37°) = 9.8(0.6 − 0.25×0.8) = 9.8×0.4 = 3.92 m/s²."
   },
   {
     q: "La componente del peso parallela al piano (F∥ = m·g·sinθ) aumenta quando:",
@@ -225,9 +205,8 @@ export default function PianoInclinato() {
 
   return (
     <>
-      {/* TEORIA */}
       <div className="card">
-        <h2>↗️ Moto su Piano Inclinato</h2>
+        <h2>Moto su Piano Inclinato</h2>
 
         <h3>Decomposizione del peso</h3>
         <p>
@@ -238,19 +217,17 @@ export default function PianoInclinato() {
         <div className="formula highlight">Forza normale: N = m·g·cosθ</div>
 
         <h3>Accelerazione senza attrito</h3>
-        <p>Senza attrito, la sola forza orizzontale è F∥:</p>
+        <p>Senza attrito, la sola forza lungo il piano è F∥:</p>
         <div className="formula highlight">a = g·sinθ</div>
         <div className="info-box tip">
-          <span className="info-box-icon">💡</span>
-          <span>L'accelerazione non dipende dalla massa! Galileo lo dimostrò (secondo la leggenda) dalla Torre di Pisa.</span>
+          L'accelerazione non dipende dalla massa! Galileo lo dimostrò (secondo la leggenda) dalla Torre di Pisa.
         </div>
 
         <h3>Accelerazione con attrito cinetico</h3>
         <p>L'attrito cinetico è Fₐ = μ_c · N = μ_c · m · g · cosθ (risale il piano).</p>
         <div className="formula highlight">a = g·(sinθ − μ_c·cosθ)</div>
         <div className="info-box warn">
-          <span className="info-box-icon">⚠️</span>
-          <span>Se μ_c · cosθ ≥ sinθ (cioè μ ≥ tanθ), l'attrito supera la componente parallela e il blocco non scivola.</span>
+          Se μ_c · cosθ ≥ sinθ (cioè μ ≥ tanθ), l'attrito supera la componente parallela e il blocco non scivola.
         </div>
 
         <h3>Con velocità iniziale v₀ ≠ 0</h3>
@@ -260,18 +237,14 @@ export default function PianoInclinato() {
           Si ferma e poi eventualmente ridiscende.
         </p>
         <div className="info-box example">
-          <span className="info-box-icon">📝</span>
-          <span>
-            <strong>Esempio:</strong> θ = 30°, μ = 0.2, g = 9.8 m/s².
-            a = 9.8(0.5 − 0.2×0.866) = 9.8(0.5−0.173) = 3.2 m/s².
-            Partendo da fermo, dopo 3 s: v = 9.6 m/s, s = 14.4 m.
-          </span>
+          <strong>Esempio:</strong> θ = 30°, μ = 0.2, g = 9.8 m/s².
+          a = 9.8(0.5 − 0.2×0.866) = 9.8(0.5−0.173) = 3.2 m/s².
+          Partendo da fermo, dopo 3 s: v = 9.6 m/s, s = 14.4 m.
         </div>
       </div>
 
-      {/* SIMULAZIONE */}
       <div className="sim-card">
-        <h2>🔬 Simulazione — Piano Inclinato</h2>
+        <h2>Simulazione — Piano Inclinato</h2>
         <p style={{ fontSize: '0.85rem', color: 'var(--muted)', marginBottom: '0.75rem' }}>
           Le frecce mostrano le forze sul blocco. Positivo = giù per il piano.
         </p>
@@ -304,8 +277,7 @@ export default function PianoInclinato() {
 
         {!canMove && v0 === 0 && (
           <div className="info-box warn" style={{ marginBottom: '0.5rem' }}>
-            <span className="info-box-icon">🛑</span>
-            <span>Blocco fermo: l'attrito statico bilancia la componente parallela. tanθ = {Math.tan((theta * Math.PI) / 180).toFixed(2)} &lt; μ = {mu.toFixed(2)}</span>
+            Blocco fermo: l'attrito statico bilancia la componente parallela. tanθ = {Math.tan((theta * Math.PI) / 180).toFixed(2)} &lt; μ = {mu.toFixed(2)}
           </div>
         )}
 
@@ -341,16 +313,16 @@ export default function PianoInclinato() {
         <div style={{ marginTop: '1rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
           <div>
             <div style={{ fontSize: '0.8rem', color: 'var(--muted)', marginBottom: '4px' }}>v(t) — velocità</div>
-            <Graph points={ptsV} xLabel="t (s)" yLabel="v (m/s)" color="#4fc3f7" xMax={T_MAX} />
+            <Graph points={ptsV} xLabel="t (s)" yLabel="v (m/s)" color="#2563eb" xMax={T_MAX} />
           </div>
           <div>
             <div style={{ fontSize: '0.8rem', color: 'var(--muted)', marginBottom: '4px' }}>s(t) — posizione lungo il piano</div>
-            <Graph points={ptsS} xLabel="t (s)" yLabel="s (m)" color="#69f0ae" xMax={T_MAX} />
+            <Graph points={ptsS} xLabel="t (s)" yLabel="s (m)" color="#2e7d32" xMax={T_MAX} />
           </div>
         </div>
       </div>
 
-      <Quiz title="🧠 Quiz — Piano Inclinato" questions={quizQ} />
+      <Quiz title="Quiz — Piano Inclinato" questions={quizQ} />
     </>
   )
 }
