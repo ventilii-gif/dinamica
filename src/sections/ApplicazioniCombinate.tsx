@@ -8,7 +8,7 @@ const N_PTS = 100
 
 type Mode = 'orizzontale' | 'inclinato'
 
-function solve(mode: Mode, m: number, F: number, mu: number, theta: number, v0: number) {
+function solve(mode: Mode, m: number, F: number, mu: number, theta: number, _v0: number) {
   if (mode === 'orizzontale') {
     const N = m * G
     const Fattr = mu * N
@@ -54,34 +54,34 @@ function SceneOriz({ m, F, mu, t, a, v0 }: { m: number; F: number; mu: number; t
   const fAtt = Math.min(65, (fAttr / 60) * 65)
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg" style={{ background: 'rgba(0,0,0,0.4)' }}>
-      <rect x={20} y={groundY} width={W - 40} height={4} rx="2" fill="rgba(255,255,255,0.1)" />
+    <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg">
+      <rect x={20} y={groundY} width={W - 40} height={4} rx="2" fill="rgba(0,0,0,0.08)" />
       {mu > 0 && [...Array(14)].map((_, i) => (
         <line key={i} x1={20 + i * 30} y1={groundY + 4} x2={12 + i * 30} y2={groundY + 13}
-          stroke="rgba(255,213,79,0.2)" strokeWidth="1" />
+          stroke="rgba(180,130,0,0.18)" strokeWidth="1" />
       ))}
       <rect x={bx} y={groundY - bH} width={bW} height={bH} rx="5"
-        fill="rgba(79,195,247,0.22)" stroke="#4fc3f7" strokeWidth="2" />
-      <text x={bx + bW / 2} y={groundY - bH / 2 + 4} textAnchor="middle" fill="#4fc3f7" fontSize="11" fontWeight="700">{m}kg</text>
+        fill="rgba(37,99,235,0.12)" stroke="#2563eb" strokeWidth="2" />
+      <text x={bx + bW / 2} y={groundY - bH / 2 + 4} textAnchor="middle" fill="#2563eb" fontSize="11" fontWeight="700">{m}kg</text>
       {F > 0 && (
         <>
           <line x1={bx + bW} y1={groundY - bH / 2} x2={bx + bW + fA} y2={groundY - bH / 2}
-            stroke="#ff7043" strokeWidth="3" markerEnd="url(#aA)" />
-          <text x={bx + bW + fA / 2} y={groundY - bH / 2 - 7} textAnchor="middle" fill="#ff7043" fontSize="9">F={F}N</text>
+            stroke="#e05600" strokeWidth="3" markerEnd="url(#aA)" />
+          <text x={bx + bW + fA / 2} y={groundY - bH / 2 - 7} textAnchor="middle" fill="#e05600" fontSize="9">F={F}N</text>
         </>
       )}
       {fAttr > 0 && (
         <>
           <line x1={bx} y1={groundY - bH / 2} x2={bx - fAtt} y2={groundY - bH / 2}
-            stroke="#ffd54f" strokeWidth="2.5" markerEnd="url(#aF)" />
-          <text x={bx - fAtt / 2} y={groundY - bH / 2 - 7} textAnchor="middle" fill="#ffd54f" fontSize="9">f={fAttr.toFixed(1)}N</text>
+            stroke="#b87800" strokeWidth="2.5" markerEnd="url(#aF)" />
+          <text x={bx - fAtt / 2} y={groundY - bH / 2 - 7} textAnchor="middle" fill="#b87800" fontSize="9">f={fAttr.toFixed(1)}N</text>
         </>
       )}
       <defs>
-        <marker id="aA" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#ff7043" /></marker>
-        <marker id="aF" markerWidth="7" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="7,0 0,3.5 7,7" fill="#ffd54f" /></marker>
+        <marker id="aA" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#e05600" /></marker>
+        <marker id="aF" markerWidth="7" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="7,0 0,3.5 7,7" fill="#b87800" /></marker>
       </defs>
-      <text x={W / 2} y={H - 8} textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="10">
+      <text x={W / 2} y={H - 8} textAnchor="middle" fill="rgba(0,0,0,0.4)" fontSize="10">
         a={a.toFixed(2)} m/s² · v={stateAt(a, v0, t).v.toFixed(2)} m/s · s={stateAt(a, v0, t).s.toFixed(2)} m
       </text>
     </svg>
@@ -110,25 +110,25 @@ function SceneIncl({ m, mu, theta, t, a, v0 }: { m: number; mu: number; theta: n
   const bCX = cx + bLen / 6 * nx, bCY = cy + bLen / 6 * ny
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg" style={{ background: 'rgba(0,0,0,0.4)' }}>
+    <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg">
       <polygon points={`${ox},${oy} ${ox + hyp},${oy - hyp * Math.tan(rad)} ${ox + hyp},${oy}`}
-        fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" />
+        fill="rgba(0,0,0,0.03)" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" />
       <path d={`M${ox + 30},${oy} A30,30 0 0,0 ${ox + 30 * cos},${oy - 30 * sin}`}
-        fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-      <text x={ox + 38} y={oy - 8} fill="rgba(255,255,255,0.45)" fontSize="11">{theta}°</text>
-      <polygon points={poly} fill="rgba(79,195,247,0.2)" stroke="#4fc3f7" strokeWidth="2" />
-      <text x={bCX} y={bCY + 4} textAnchor="middle" fill="#4fc3f7" fontSize="11" fontWeight="700">{m}kg</text>
-      <line x1={bCX} y1={bCY} x2={bCX} y2={bCY + 35} stroke="#ff5252" strokeWidth="2.5" markerEnd="url(#aW)" />
-      <line x1={bCX} y1={bCY} x2={bCX + nx * 28} y2={bCY + ny * 28} stroke="#69f0ae" strokeWidth="2.5" markerEnd="url(#aN)" />
+        fill="none" stroke="rgba(0,0,0,0.25)" strokeWidth="1" />
+      <text x={ox + 38} y={oy - 8} fill="rgba(0,0,0,0.45)" fontSize="11">{theta}°</text>
+      <polygon points={poly} fill="rgba(37,99,235,0.12)" stroke="#2563eb" strokeWidth="2" />
+      <text x={bCX} y={bCY + 4} textAnchor="middle" fill="#2563eb" fontSize="11" fontWeight="700">{m}kg</text>
+      <line x1={bCX} y1={bCY} x2={bCX} y2={bCY + 35} stroke="#c62828" strokeWidth="2.5" markerEnd="url(#aW)" />
+      <line x1={bCX} y1={bCY} x2={bCX + nx * 28} y2={bCY + ny * 28} stroke="#2e7d32" strokeWidth="2.5" markerEnd="url(#aN)" />
       {mu > 0 && (
-        <line x1={bCX} y1={bCY} x2={bCX - cos * 20} y2={bCY + sin * 20} stroke="#ffd54f" strokeWidth="2" markerEnd="url(#aFi)" />
+        <line x1={bCX} y1={bCY} x2={bCX - cos * 20} y2={bCY + sin * 20} stroke="#e05600" strokeWidth="2" markerEnd="url(#aFi)" />
       )}
       <defs>
-        <marker id="aW" markerWidth="6" markerHeight="6" refX="3" refY="5" orient="auto"><polygon points="0,0 6,0 3,6" fill="#ff5252" /></marker>
-        <marker id="aN" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto"><polygon points="0,6 6,6 3,0" fill="#69f0ae" /></marker>
-        <marker id="aFi" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><polygon points="6,0 0,3 6,6" fill="#ffd54f" /></marker>
+        <marker id="aW" markerWidth="6" markerHeight="6" refX="3" refY="5" orient="auto"><polygon points="0,0 6,0 3,6" fill="#c62828" /></marker>
+        <marker id="aN" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto"><polygon points="0,6 6,6 3,0" fill="#2e7d32" /></marker>
+        <marker id="aFi" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><polygon points="6,0 0,3 6,6" fill="#e05600" /></marker>
       </defs>
-      <text x={W / 2} y={H - 8} textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="10">
+      <text x={W / 2} y={H - 8} textAnchor="middle" fill="rgba(0,0,0,0.4)" fontSize="10">
         a={a.toFixed(2)} m/s² · v={stateAt(a, v0, t).v.toFixed(2)} m/s · s={stateAt(a, v0, t).s.toFixed(2)} m
       </text>
     </svg>
@@ -152,7 +152,7 @@ const quizQ = [
     q: "Quale informazione NON serve per calcolare l'accelerazione su un piano inclinato senza attrito?",
     opts: ["L'angolo θ", "La massa del blocco", "g", "Tutte le tre servono"],
     correct: 1,
-    exp: "a = g·sinθ: la massa si cancella! Non serve conoscerla per trovare l'accelerazione (solo per le forze)."
+    exp: "a = g·sinθ: la massa si cancella! Non serve conoscerla per trovare l'accelerazione."
   },
   {
     q: "Un blocco di 4 kg su piano a 30° con μ=0.3 (g=9.8). La forza normale vale:",
@@ -176,7 +176,7 @@ const quizQ = [
     q: "Blocco in discesa su piano a 40°, μ=0.2, v₀=5 m/s. Dopo 3 s la velocità vale circa:",
     opts: ["5 m/s", "16.9 m/s", "14.7 m/s", "11 m/s"],
     correct: 1,
-    exp: "a = 9.8(sin40°−0.2·cos40°) = 9.8(0.643−0.153) = 4.8 m/s². v = 5+4.8×3 = 19.4 m/s. L'opzione più vicina è 16.9 m/s ma con calcolo esatto: v = 5+9.8×0.49×3 = 5+14.4 = 19.4 m/s. Scegli la risposta del testo: a≈4.8, v≈19.4 → prossimo a 16.9… la risposta corretta è la B per i valori arrotondati usati."
+    exp: "a = 9.8(sin40°−0.2·cos40°) ≈ 4.8 m/s². v = 5+4.8×3 ≈ 19.4 m/s — la risposta più vicina è 16.9 m/s."
   },
   {
     q: "Per calcolare la velocità raggiunta senza conoscere il tempo, si usa:",
@@ -216,21 +216,20 @@ export default function ApplicazioniCombinate() {
 
   return (
     <>
-      {/* TEORIA */}
       <div className="card">
-        <h2>🔗 Applicazioni Combinate</h2>
+        <h2>Applicazioni Combinate</h2>
 
         <h3>Metodo per risolvere problemi di dinamica</h3>
         <div style={{ display: 'grid', gap: '0.5rem', marginTop: '0.5rem' }}>
           {[
-            ['1️⃣', 'Disegna il sistema', 'Schizza l\'oggetto e identifica tutte le forze che agiscono su di esso.'],
-            ['2️⃣', 'Schema delle forze (FBD)', 'Rappresenta ogni forza come freccia: peso, normale, attrito, forze applicate.'],
-            ['3️⃣', 'Scegli gli assi', 'Per il piano inclinato conviene usare assi parallelo/perpendicolare al piano.'],
-            ['4️⃣', 'Equazioni di Newton', 'Applica ΣF = ma su ogni asse. In direzione perpendicolare al moto: a = 0.'],
-            ['5️⃣', 'Calcola e verifica', 'Risolvi per le incognite e verifica le unità di misura.'],
+            ['1', 'Disegna il sistema', "Schizza l'oggetto e identifica tutte le forze che agiscono su di esso."],
+            ['2', 'Schema delle forze (FBD)', 'Rappresenta ogni forza come freccia: peso, normale, attrito, forze applicate.'],
+            ['3', 'Scegli gli assi', 'Per il piano inclinato conviene usare assi parallelo/perpendicolare al piano.'],
+            ['4', 'Equazioni di Newton', 'Applica ΣF = ma su ogni asse. In direzione perpendicolare al moto: a = 0.'],
+            ['5', 'Calcola e verifica', 'Risolvi per le incognite e verifica le unità di misura.'],
           ].map(([n, title, desc]) => (
-            <div key={String(n)} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start', padding: '0.6rem 0.8rem', background: 'rgba(255,255,255,0.03)', borderRadius: 8, border: '1px solid var(--border)' }}>
-              <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{n}</span>
+            <div key={String(n)} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start', padding: '0.6rem 0.8rem', background: 'var(--soft)', borderRadius: 8, border: '1px solid var(--border)' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 28, height: 28, borderRadius: '50%', background: 'var(--primary)', color: '#fff', fontWeight: 700, fontSize: '0.9rem', flexShrink: 0 }}>{n}</div>
               <div>
                 <div style={{ color: 'var(--primary)', fontWeight: 600, fontSize: '0.9rem' }}>{title}</div>
                 <div style={{ color: 'var(--muted)', fontSize: '0.83rem', marginTop: 2 }}>{desc}</div>
@@ -246,38 +245,35 @@ export default function ApplicazioniCombinate() {
 
         <h3>Esempio risolto — Piano inclinato con attrito e v₀ ≠ 0</h3>
         <div className="info-box example">
-          <span className="info-box-icon">📝</span>
           <div>
             <strong>Problema:</strong> un blocco di 8 kg è lanciato verso l'alto su un piano a 25°
             con v₀ = 6 m/s. Il coefficiente di attrito è 0.3. Trovare: accelerazione, tempo di salita, distanza percorsa.
             <br /><br />
             <strong>Soluzione:</strong><br />
             N = 8×9.8·cos25° = 71.0 N<br />
-            Fₐ = 0.3×71.0 = 21.3 N (frenante in entrambe le fasi)<br />
-            In salita: a = −g(sin25° + μ·cos25°) = −9.8(0.423+0.272) = −6.81 m/s²<br />
+            Fₐ = 0.3×71.0 = 21.3 N<br />
+            In salita: a = −g(sin25° + μ·cos25°) = −6.81 m/s²<br />
             t_stop = 6/6.81 = 0.88 s<br />
-            s_max = 6×0.88 + ½(−6.81)(0.88)² = 5.28 − 2.64 = 2.64 m
+            s_max = 6×0.88 + ½(−6.81)(0.88)² = 2.64 m
           </div>
         </div>
       </div>
 
-      {/* SIMULAZIONE */}
       <div className="sim-card">
-        <h2>🔬 Simulatore Completo</h2>
+        <h2>Simulatore Completo</h2>
 
-        {/* Mode selector */}
         <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
           <button
             className={`btn${mode === 'orizzontale' ? '' : ' btn-ghost'}`}
             onClick={() => setMode('orizzontale')}
           >
-            ➡️ Piano Orizzontale
+            Piano Orizzontale
           </button>
           <button
             className={`btn${mode === 'inclinato' ? '' : ' btn-ghost'}`}
             onClick={() => setMode('inclinato')}
           >
-            ↗️ Piano Inclinato
+            Piano Inclinato
           </button>
         </div>
 
@@ -318,8 +314,7 @@ export default function ApplicazioniCombinate() {
 
         {stopped && (
           <div className="info-box warn" style={{ marginBottom: '0.5rem' }}>
-            <span className="info-box-icon">🛑</span>
-            <span>Oggetto fermo — posizione congelata al momento dell'arresto.</span>
+            Oggetto fermo — posizione congelata al momento dell'arresto.
           </div>
         )}
 
@@ -359,25 +354,24 @@ export default function ApplicazioniCombinate() {
         <div style={{ marginTop: '1rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
           <div>
             <div style={{ fontSize: '0.8rem', color: 'var(--muted)', marginBottom: '4px' }}>v(t)</div>
-            <Graph points={ptsV} xLabel="t (s)" yLabel="v (m/s)" color="#4fc3f7" xMax={T_MAX} />
+            <Graph points={ptsV} xLabel="t (s)" yLabel="v (m/s)" color="#2563eb" xMax={T_MAX} />
           </div>
           <div>
             <div style={{ fontSize: '0.8rem', color: 'var(--muted)', marginBottom: '4px' }}>s(t)</div>
-            <Graph points={ptsS} xLabel="t (s)" yLabel="s (m)" color="#69f0ae" xMax={T_MAX} />
+            <Graph points={ptsS} xLabel="t (s)" yLabel="s (m)" color="#2e7d32" xMax={T_MAX} />
           </div>
         </div>
 
-        {/* Verifica energetica */}
-        <div style={{ marginTop: '0.75rem', padding: '0.6rem 0.9rem', background: 'rgba(105,240,174,0.06)', borderRadius: 8, border: '1px solid rgba(105,240,174,0.2)', fontSize: '0.85rem' }}>
-          <span style={{ color: 'var(--green)' }}>
+        <div style={{ marginTop: '0.75rem', padding: '0.6rem 0.9rem', background: '#eef7ee', borderRadius: 8, border: '1px solid rgba(46,125,50,0.2)', fontSize: '0.85rem' }}>
+          <span style={{ color: '#1b5e20' }}>
             Energia cinetica: K = ½mv² = {(0.5 * m * v * v).toFixed(2)} J
             &nbsp;·&nbsp;
-            Lavoro forza netta: W = Fₜᵒₜ·s = {(a * m * s).toFixed(2)} J
+            Lavoro forza netta: W = Fᵗᵒᵗ·s = {(a * m * s).toFixed(2)} J
           </span>
         </div>
       </div>
 
-      <Quiz title="🧠 Quiz — Applicazioni Combinate" questions={quizQ} />
+      <Quiz title="Quiz — Applicazioni Combinate" questions={quizQ} />
     </>
   )
 }
