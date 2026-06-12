@@ -42,48 +42,48 @@ function OrizScene({ m, F, mu, v0, t }: { m: number; F: number; mu: number; v0: 
   const moving = Math.abs(v) > 0.01
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg" style={{ background: 'rgba(0,0,0,0.4)' }}>
-      <rect x={20} y={groundY} width={W - 40} height={4} rx="2" fill="rgba(255,255,255,0.12)" />
+    <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg">
+      <rect x={20} y={groundY} width={W - 40} height={4} rx="2" fill="rgba(0,0,0,0.08)" />
       {mu > 0 && [...Array(16)].map((_, i) => (
         <line key={i} x1={20 + i * 28} y1={groundY + 4} x2={12 + i * 28} y2={groundY + 14}
-          stroke="rgba(255,213,79,0.2)" strokeWidth="1" />
+          stroke="rgba(180,130,0,0.18)" strokeWidth="1" />
       ))}
       {mu > 0 && (
-        <text x={W / 2} y={groundY + 24} textAnchor="middle" fill="rgba(255,213,79,0.5)" fontSize="9">
+        <text x={W / 2} y={groundY + 24} textAnchor="middle" fill="rgba(120,90,0,0.45)" fontSize="9">
           μ = {mu.toFixed(2)}
         </text>
       )}
       <rect x={bx} y={groundY - blockH} width={blockW} height={blockH}
-        rx="5" fill="rgba(79,195,247,0.22)" stroke="#4fc3f7" strokeWidth="2" />
+        rx="5" fill="rgba(37,99,235,0.12)" stroke="#2563eb" strokeWidth="2" />
       <text x={bx + blockW / 2} y={groundY - blockH / 2 + 5}
-        textAnchor="middle" fill="#4fc3f7" fontSize="12" fontWeight="700">{m}kg</text>
+        textAnchor="middle" fill="#2563eb" fontSize="12" fontWeight="700">{m}kg</text>
       {F > 0 && (
         <>
           <line x1={bx + blockW} y1={groundY - blockH / 2}
             x2={bx + blockW + fArrow} y2={groundY - blockH / 2}
-            stroke="#ff7043" strokeWidth="3" markerEnd="url(#arrO)" />
+            stroke="#e05600" strokeWidth="3" markerEnd="url(#arrO)" />
           <text x={bx + blockW + fArrow / 2} y={groundY - blockH / 2 - 8}
-            textAnchor="middle" fill="#ff7043" fontSize="10">F={F}N</text>
+            textAnchor="middle" fill="#e05600" fontSize="10">F={F}N</text>
         </>
       )}
       {moving && Fattr > 0 && (
         <>
           <line x1={bx} y1={groundY - blockH / 2}
             x2={bx - aArrow} y2={groundY - blockH / 2}
-            stroke="#ffd54f" strokeWidth="2.5" markerEnd="url(#arrF)" />
+            stroke="#b87800" strokeWidth="2.5" markerEnd="url(#arrF)" />
           <text x={bx - aArrow / 2} y={groundY - blockH / 2 - 8}
-            textAnchor="middle" fill="#ffd54f" fontSize="10">Fₐ={Fattr.toFixed(1)}N</text>
+            textAnchor="middle" fill="#b87800" fontSize="10">Fₐ={Fattr.toFixed(1)}N</text>
         </>
       )}
       <defs>
         <marker id="arrO" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
-          <polygon points="0,0 7,3.5 0,7" fill="#ff7043" />
+          <polygon points="0,0 7,3.5 0,7" fill="#e05600" />
         </marker>
         <marker id="arrF" markerWidth="7" markerHeight="7" refX="0" refY="3.5" orient="auto">
-          <polygon points="7,0 0,3.5 7,7" fill="#ffd54f" />
+          <polygon points="7,0 0,3.5 7,7" fill="#b87800" />
         </marker>
       </defs>
-      <text x={W / 2} y={H - 12} textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="10">
+      <text x={W / 2} y={H - 12} textAnchor="middle" fill="rgba(0,0,0,0.4)" fontSize="10">
         a={a.toFixed(2)} m/s² · v={v.toFixed(2)} m/s · s={s.toFixed(2)} m
       </text>
     </svg>
@@ -107,7 +107,7 @@ const quizQ = [
     q: "Il coefficiente d'attrito cinetico dipende dall'area della superficie di contatto?",
     opts: ["Sì, più grande è l'area, più attrito c'è", "No, non dipende dall'area", "Dipende solo dalla velocità", "Sì, ma solo per superfici lucide"],
     correct: 1,
-    exp: "Il modello di Amontons-Coulomb dice che l'attrito dipende da N e μ, NON dall'area. Un pneumatico largo non frena meglio per questo motivo (cambia il grip, non il μ)."
+    exp: "Il modello di Amontons-Coulomb dice che l'attrito dipende da N e μ, NON dall'area."
   },
   {
     q: "Un blocco con v₀ = 12 m/s e a = −3 m/s². Dopo quanti secondi si ferma?",
@@ -173,8 +173,7 @@ export default function PianoOrizzontale() {
   return (
     <>
       <div className="card">
-        <h2>➡️ Moto su Piano Orizzontale</h2>
-
+        <h2>Moto su Piano Orizzontale</h2>
         <h3>Senza attrito</h3>
         <p>Se la superficie è priva di attrito, l'unica forza orizzontale è quella applicata F. Dalla 2ª legge:</p>
         <div className="formula highlight">a = F / m</div>
@@ -182,35 +181,24 @@ export default function PianoOrizzontale() {
         <div className="formula">v(t) = v₀ + a·t</div>
         <div className="formula">s(t) = v₀·t + ½·a·t²</div>
         <div className="formula">v² = v₀² + 2·a·s</div>
-
         <h3>Con attrito cinetico</h3>
-        <p>
-          L'attrito cinetico si oppone al moto: Fₐ = μ_c · N = μ_c · m · g.
-          La forza netta e l'accelerazione diventano:
-        </p>
-        <div className="formula highlight">Fₜᵒₜ = F − μ_c · m · g</div>
+        <p>L'attrito cinetico si oppone al moto: Fₐ = μ_c · N = μ_c · m · g.</p>
+        <div className="formula highlight">Fᵗᵒᵗ = F − μ_c · m · g</div>
         <div className="formula highlight">a = (F − μ_c · m · g) / m</div>
         <div className="info-box warn">
-          <span className="info-box-icon">⚠️</span>
-          <span>Se F &lt; μ_s · m · g (attrito statico supera la forza applicata), il blocco non si muove affatto.</span>
+          Se F &lt; μ_s · m · g (attrito statico supera la forza applicata), il blocco non si muove affatto.
         </div>
-
         <h3>Moto con velocità iniziale v₀ ≠ 0 e decelerazione</h3>
-        <p>Se non c'è forza applicata ma c'è attrito, il blocco decelera: a = −μ_c · g. Si ferma quando v = 0:</p>
+        <p>Se non c'è forza applicata ma c'è attrito, il blocco decelera: a = −μ_c · g.</p>
         <div className="formula">t_stop = v₀ / (μ_c · g)</div>
         <div className="formula">s_stop = v₀² / (2 · μ_c · g)</div>
         <div className="info-box example">
-          <span className="info-box-icon">📝</span>
-          <span>
-            <strong>Esempio:</strong> v₀ = 10 m/s, μ = 0.4, g = 9.8 m/s².
-            a = −3.92 m/s². Si ferma dopo t ≈ 2.6 s, avendo percorso s = 12.8 m.
-          </span>
+          <strong>Esempio:</strong> v₀ = 10 m/s, μ = 0.4, g = 9.8 m/s².
+          a = −3.92 m/s². Si ferma dopo t ≈ 2.6 s, avendo percorso s = 12.8 m.
         </div>
       </div>
-
       <div className="sim-card">
-        <h2>🔬 Simulazione — Piano Orizzontale</h2>
-
+        <h2>Simulazione — Piano Orizzontale</h2>
         <div className="ctrl-row">
           <span className="ctrl-label">Massa m</span>
           <input type="range" min="1" max="20" step="0.5" value={m} onChange={e => setM(+e.target.value)} />
@@ -236,49 +224,27 @@ export default function PianoOrizzontale() {
           <input type="range" min="0" max={T_MAX} step="0.1" value={t} onChange={e => setT(+e.target.value)} />
           <span className="ctrl-value">{t.toFixed(1)} s</span>
         </div>
-
         <OrizScene m={m} F={F} mu={mu} v0={v0} t={t} />
-
         <div className="readouts">
-          <div className="readout">
-            <span className="readout-label">Accelerazione</span>
-            <span className="readout-value">{a.toFixed(2)} m/s²</span>
-          </div>
-          <div className="readout">
-            <span className="readout-label">Velocità v(t)</span>
-            <span className="readout-value">{v.toFixed(2)} m/s</span>
-          </div>
-          <div className="readout">
-            <span className="readout-label">Spazio s(t)</span>
-            <span className="readout-value">{s.toFixed(2)} m</span>
-          </div>
-          <div className="readout">
-            <span className="readout-label">Forza attrito</span>
-            <span className="readout-value">{Fattr.toFixed(1)} N</span>
-          </div>
-          <div className="readout">
-            <span className="readout-label">Forza netta</span>
-            <span className="readout-value">{Fnet.toFixed(1)} N</span>
-          </div>
-          <div className="readout">
-            <span className="readout-label">Forza normale N</span>
-            <span className="readout-value">{(m * G).toFixed(1)} N</span>
-          </div>
+          <div className="readout"><span className="readout-label">Accelerazione</span><span className="readout-value">{a.toFixed(2)} m/s²</span></div>
+          <div className="readout"><span className="readout-label">Velocità v(t)</span><span className="readout-value">{v.toFixed(2)} m/s</span></div>
+          <div className="readout"><span className="readout-label">Spazio s(t)</span><span className="readout-value">{s.toFixed(2)} m</span></div>
+          <div className="readout"><span className="readout-label">Forza attrito</span><span className="readout-value">{Fattr.toFixed(1)} N</span></div>
+          <div className="readout"><span className="readout-label">Forza netta</span><span className="readout-value">{Fnet.toFixed(1)} N</span></div>
+          <div className="readout"><span className="readout-label">Forza normale N</span><span className="readout-value">{(m * G).toFixed(1)} N</span></div>
         </div>
-
         <div style={{ marginTop: '1rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
           <div>
             <div style={{ fontSize: '0.8rem', color: 'var(--muted)', marginBottom: '4px' }}>v(t) — velocità</div>
-            <Graph points={ptsV} xLabel="t (s)" yLabel="v (m/s)" color="#4fc3f7" xMax={tEnd} />
+            <Graph points={ptsV} xLabel="t (s)" yLabel="v (m/s)" color="#2563eb" xMax={tEnd} />
           </div>
           <div>
             <div style={{ fontSize: '0.8rem', color: 'var(--muted)', marginBottom: '4px' }}>s(t) — posizione</div>
-            <Graph points={ptsS} xLabel="t (s)" yLabel="s (m)" color="#69f0ae" xMax={tEnd} />
+            <Graph points={ptsS} xLabel="t (s)" yLabel="s (m)" color="#2e7d32" xMax={tEnd} />
           </div>
         </div>
       </div>
-
-      <Quiz title="🧠 Quiz — Piano Orizzontale" questions={quizQ} />
+      <Quiz title="Quiz — Piano Orizzontale" questions={quizQ} />
     </>
   )
 }
