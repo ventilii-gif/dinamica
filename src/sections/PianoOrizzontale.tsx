@@ -43,13 +43,13 @@ function OrizScene({ m, F, mu, v0, t }: { m: number; F: number; mu: number; v0: 
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg">
-      <rect x={20} y={groundY} width={W - 40} height={4} rx="2" fill="rgba(0,0,0,0.08)" />
+      <rect x={20} y={groundY} width={W - 40} height={4} rx="2" fill="var(--sim-ground)" />
       {mu > 0 && [...Array(16)].map((_, i) => (
         <line key={i} x1={20 + i * 28} y1={groundY + 4} x2={12 + i * 28} y2={groundY + 14}
-          stroke="rgba(180,130,0,0.18)" strokeWidth="1" />
+          stroke="rgba(180,130,0,0.35)" strokeWidth="1" />
       ))}
       {mu > 0 && (
-        <text x={W / 2} y={groundY + 24} textAnchor="middle" fill="rgba(120,90,0,0.45)" fontSize="9">
+        <text x={W / 2} y={groundY + 24} textAnchor="middle" fill="var(--sim-text)" fontSize="9">
           μ = {mu.toFixed(2)}
         </text>
       )}
@@ -70,9 +70,9 @@ function OrizScene({ m, F, mu, v0, t }: { m: number; F: number; mu: number; v0: 
         <>
           <line x1={bx} y1={groundY - blockH / 2}
             x2={bx - aArrow} y2={groundY - blockH / 2}
-            stroke="#b87800" strokeWidth="2.5" markerEnd="url(#arrF)" />
+            stroke="#c98a00" strokeWidth="2.5" markerEnd="url(#arrF)" />
           <text x={bx - aArrow / 2} y={groundY - blockH / 2 - 8}
-            textAnchor="middle" fill="#b87800" fontSize="10">Fₐ={Fattr.toFixed(1)}N</text>
+            textAnchor="middle" fill="#c98a00" fontSize="10">Fₐ={Fattr.toFixed(1)}N</text>
         </>
       )}
       <defs>
@@ -80,10 +80,10 @@ function OrizScene({ m, F, mu, v0, t }: { m: number; F: number; mu: number; v0: 
           <polygon points="0,0 7,3.5 0,7" fill="#e05600" />
         </marker>
         <marker id="arrF" markerWidth="7" markerHeight="7" refX="0" refY="3.5" orient="auto">
-          <polygon points="7,0 0,3.5 7,7" fill="#b87800" />
+          <polygon points="7,0 0,3.5 7,7" fill="#c98a00" />
         </marker>
       </defs>
-      <text x={W / 2} y={H - 12} textAnchor="middle" fill="rgba(0,0,0,0.4)" fontSize="10">
+      <text x={W / 2} y={H - 12} textAnchor="middle" fill="var(--sim-text)" fontSize="10">
         a={a.toFixed(2)} m/s² · v={v.toFixed(2)} m/s · s={s.toFixed(2)} m
       </text>
     </svg>

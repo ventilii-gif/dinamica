@@ -26,10 +26,10 @@ function NewtonScene({ m, F, t }: { m: number; F: number; t: number }) {
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg">
-      <line x1={20} y1={groundY} x2={W - 20} y2={groundY} stroke="rgba(0,0,0,0.12)" strokeWidth="1.5" />
+      <line x1={20} y1={groundY} x2={W - 20} y2={groundY} stroke="var(--sim-axis-soft)" strokeWidth="1.5" />
       {[...Array(18)].map((_, i) => (
         <line key={i} x1={20 + i * 26} y1={groundY} x2={14 + i * 26} y2={groundY + 10}
-          stroke="rgba(0,0,0,0.07)" strokeWidth="1" />
+          stroke="var(--sim-ground-hatch)" strokeWidth="1" />
       ))}
       <rect x={bx} y={groundY - blockH} width={blockW} height={blockH}
         rx="5" fill="rgba(37,99,235,0.12)" stroke="#2563eb" strokeWidth="2" />
@@ -51,10 +51,10 @@ function NewtonScene({ m, F, t }: { m: number; F: number; t: number }) {
       </defs>
       <line x1={bx + blockW / 2} y1={groundY - blockH}
         x2={bx + blockW / 2} y2={groundY - blockH - 35}
-        stroke="rgba(46,125,50,0.7)" strokeWidth="2" />
+        stroke="#2e7d32" strokeWidth="2" />
       <text x={bx + blockW / 2 + 6} y={groundY - blockH - 18}
-        fill="rgba(46,125,50,0.8)" fontSize="9">N</text>
-      <text x={W / 2} y={H - 12} textAnchor="middle" fill="rgba(0,0,0,0.4)" fontSize="11">
+        fill="#2e7d32" fontSize="9">N</text>
+      <text x={W / 2} y={H - 12} textAnchor="middle" fill="var(--sim-text)" fontSize="11">
         a = {a.toFixed(2)} m/s² · v = {scene(m, F, t).v.toFixed(2)} m/s · s = {scene(m, F, t).s.toFixed(2)} m
       </text>
     </svg>

@@ -20,20 +20,20 @@ function AttritionGraph({ m, muS, muD }: { m: number; muS: number; muD: number }
   const dropY1 = ty(FsMax), dropY2 = ty(Fk)
   return (
     <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', display: 'block' }}>
-      <rect x={PAD.left} y={PAD.top} width={iW} height={iH} fill="#fbfcfe" rx="5" />
-      <rect x={PAD.left} y={PAD.top} width={dropX-PAD.left} height={iH} fill="rgba(46,125,50,0.04)" />
-      <text x={PAD.left+(dropX-PAD.left)/2} y={PAD.top+iH-6} textAnchor="middle" fill="rgba(46,125,50,0.5)" fontSize="9">statico</text>
-      <rect x={dropX} y={PAD.top} width={PAD.left+iW-dropX} height={iH} fill="rgba(213,84,0,0.04)" />
-      <text x={dropX+(PAD.left+iW-dropX)/2} y={PAD.top+iH-6} textAnchor="middle" fill="rgba(213,84,0,0.5)" fontSize="9">cinetico</text>
-      <path d={staticPts.join(' ')} fill="none" stroke="#2e7d32" strokeWidth="2.5" />
-      <path d={`M${dropX.toFixed(1)},${dropY1.toFixed(1)} L${dropX.toFixed(1)},${dropY2.toFixed(1)}`} fill="none" stroke="rgba(0,0,0,0.2)" strokeWidth="1.5" strokeDasharray="3 2" />
+      <rect x={PAD.left} y={PAD.top} width={iW} height={iH} fill="var(--sim-bg)" rx="5" />
+      <rect x={PAD.left} y={PAD.top} width={dropX-PAD.left} height={iH} fill="rgba(46,158,79,0.08)" />
+      <text x={PAD.left+(dropX-PAD.left)/2} y={PAD.top+iH-6} textAnchor="middle" fill="#2e9e4f" fontSize="9">statico</text>
+      <rect x={dropX} y={PAD.top} width={PAD.left+iW-dropX} height={iH} fill="rgba(224,86,0,0.08)" />
+      <text x={dropX+(PAD.left+iW-dropX)/2} y={PAD.top+iH-6} textAnchor="middle" fill="#e05600" fontSize="9">cinetico</text>
+      <path d={staticPts.join(' ')} fill="none" stroke="#2e9e4f" strokeWidth="2.5" />
+      <path d={`M${dropX.toFixed(1)},${dropY1.toFixed(1)} L${dropX.toFixed(1)},${dropY2.toFixed(1)}`} fill="none" stroke="var(--sim-axis)" strokeWidth="1.5" strokeDasharray="3 2" />
       <path d={`M${dropX.toFixed(1)},${dropY2.toFixed(1)} L${tx(Fmax).toFixed(1)},${dropY2.toFixed(1)}`} fill="none" stroke="#e05600" strokeWidth="2.5" />
-      <text x={dropX+4} y={ty(FsMax)-4} fill="#2e7d32" fontSize="9">μₛ·N={FsMax.toFixed(1)}N</text>
+      <text x={dropX+4} y={ty(FsMax)-4} fill="#2e9e4f" fontSize="9">μₛ·N={FsMax.toFixed(1)}N</text>
       <text x={dropX+4} y={ty(Fk)+12} fill="#e05600" fontSize="9">μₖ·N={Fk.toFixed(1)}N</text>
-      <line x1={PAD.left} y1={PAD.top+iH} x2={PAD.left+iW} y2={PAD.top+iH} stroke="rgba(0,0,0,0.2)" strokeWidth="1" />
-      <line x1={PAD.left} y1={PAD.top} x2={PAD.left} y2={PAD.top+iH} stroke="rgba(0,0,0,0.2)" strokeWidth="1" />
-      <text x={PAD.left+iW/2} y={H-4} textAnchor="middle" fill="rgba(0,0,0,0.45)" fontSize="10">Forza applicata F (N)</text>
-      <text x={14} y={PAD.top+iH/2} textAnchor="middle" fill="rgba(0,0,0,0.45)" fontSize="10" transform={`rotate(-90,14,${PAD.top+iH/2})`}>F attrito (N)</text>
+      <line x1={PAD.left} y1={PAD.top+iH} x2={PAD.left+iW} y2={PAD.top+iH} stroke="var(--sim-axis)" strokeWidth="1" />
+      <line x1={PAD.left} y1={PAD.top} x2={PAD.left} y2={PAD.top+iH} stroke="var(--sim-axis)" strokeWidth="1" />
+      <text x={PAD.left+iW/2} y={H-4} textAnchor="middle" fill="var(--sim-text)" fontSize="10">Forza applicata F (N)</text>
+      <text x={14} y={PAD.top+iH/2} textAnchor="middle" fill="var(--sim-text)" fontSize="10" transform={`rotate(-90,14,${PAD.top+iH/2})`}>F attrito (N)</text>
     </svg>
   )
 }
@@ -50,26 +50,26 @@ function BlockScene({ m, muS, muD, Fapp }: { m: number; muS: number; muD: number
   const fScale = (f: number) => Math.min(100, (f/Math.max(FsMax*1.5,1))*100)
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg">
-      <rect x={20} y={groundY} width={W-40} height={5} rx="2" fill="rgba(0,0,0,0.08)" />
-      {[...Array(14)].map((_,i) => <line key={i} x1={20+i*30} y1={groundY+5} x2={12+i*30} y2={groundY+14} stroke="rgba(0,0,0,0.06)" strokeWidth="1" />)}
+      <rect x={20} y={groundY} width={W-40} height={5} rx="2" fill="var(--sim-ground)" />
+      {[...Array(14)].map((_,i) => <line key={i} x1={20+i*30} y1={groundY+5} x2={12+i*30} y2={groundY+14} stroke="var(--sim-ground-hatch)" strokeWidth="1" />)}
       <rect x={bx} y={groundY-blockH} width={blockW} height={blockH} rx="6"
-        fill={moving?'rgba(213,84,0,0.12)':'rgba(37,99,235,0.12)'}
+        fill={moving?'rgba(224,86,0,0.15)':'rgba(37,99,235,0.12)'}
         stroke={moving?'#e05600':'#2563eb'} strokeWidth="2" />
       <text x={bx+blockW/2} y={groundY-blockH/2+5} textAnchor="middle" fill={moving?'#e05600':'#2563eb'} fontSize="12" fontWeight="700">{m}kg</text>
       {Fapp > 0 && <>
-        <line x1={bx+blockW} y1={groundY-blockH/2} x2={bx+blockW+fScale(Fapp)} y2={groundY-blockH/2} stroke="#b87800" strokeWidth="3" markerEnd="url(#arrA)" />
-        <text x={bx+blockW+fScale(Fapp)/2} y={groundY-blockH/2-8} textAnchor="middle" fill="#b87800" fontSize="10">F={Fapp.toFixed(1)}N</text>
+        <line x1={bx+blockW} y1={groundY-blockH/2} x2={bx+blockW+fScale(Fapp)} y2={groundY-blockH/2} stroke="#c98a00" strokeWidth="3" markerEnd="url(#arrA)" />
+        <text x={bx+blockW+fScale(Fapp)/2} y={groundY-blockH/2-8} textAnchor="middle" fill="#c98a00" fontSize="10">F={Fapp.toFixed(1)}N</text>
       </>}
       {Fattrito > 0 && <>
-        <line x1={bx} y1={groundY-blockH/2} x2={bx-fScale(Fattrito)} y2={groundY-blockH/2} stroke={moving?'#e05600':'#2e7d32'} strokeWidth="3" markerEnd={moving?'url(#arrFk)':'url(#arrFs)'} />
-        <text x={bx-fScale(Fattrito)/2} y={groundY-blockH/2-8} textAnchor="middle" fill={moving?'#e05600':'#2e7d32'} fontSize="10">Fₐ={Fattrito.toFixed(1)}N</text>
+        <line x1={bx} y1={groundY-blockH/2} x2={bx-fScale(Fattrito)} y2={groundY-blockH/2} stroke={moving?'#e05600':'#2e9e4f'} strokeWidth="3" markerEnd={moving?'url(#arrFk)':'url(#arrFs)'} />
+        <text x={bx-fScale(Fattrito)/2} y={groundY-blockH/2-8} textAnchor="middle" fill={moving?'#e05600':'#2e9e4f'} fontSize="10">Fₐ={Fattrito.toFixed(1)}N</text>
       </>}
       <defs>
-        <marker id="arrA" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#b87800" /></marker>
-        <marker id="arrFs" markerWidth="7" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="7,0 0,3.5 7,7" fill="#2e7d32" /></marker>
+        <marker id="arrA" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#c98a00" /></marker>
+        <marker id="arrFs" markerWidth="7" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="7,0 0,3.5 7,7" fill="#2e9e4f" /></marker>
         <marker id="arrFk" markerWidth="7" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="7,0 0,3.5 7,7" fill="#e05600" /></marker>
       </defs>
-      <text x={W/2} y={H-8} textAnchor="middle" fontSize="12" fontWeight="700" fill={moving?'#e05600':'#2e7d32'}>
+      <text x={W/2} y={H-8} textAnchor="middle" fontSize="12" fontWeight="700" fill={moving?'#e05600':'#2e9e4f'}>
         {moving?'▶ IN MOTO (attrito cinetico)':'■ FERMO (attrito statico)'}
       </text>
     </svg>

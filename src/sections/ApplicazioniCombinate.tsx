@@ -38,8 +38,8 @@ function SceneOriz({ m, F, mu, t, a, v0 }: { m: number; F: number; mu: number; t
   const fAtt = Math.min(65, (fAttr/60)*65)
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg">
-      <rect x={20} y={groundY} width={W-40} height={4} rx="2" fill="rgba(0,0,0,0.08)" />
-      {mu > 0 && [...Array(14)].map((_,i) => <line key={i} x1={20+i*30} y1={groundY+4} x2={12+i*30} y2={groundY+13} stroke="rgba(180,130,0,0.18)" strokeWidth="1" />)}
+      <rect x={20} y={groundY} width={W-40} height={4} rx="2" fill="var(--sim-ground)" />
+      {mu > 0 && [...Array(14)].map((_,i) => <line key={i} x1={20+i*30} y1={groundY+4} x2={12+i*30} y2={groundY+13} stroke="rgba(180,130,0,0.35)" strokeWidth="1" />)}
       <rect x={bx} y={groundY-bH} width={bW} height={bH} rx="5" fill="rgba(37,99,235,0.12)" stroke="#2563eb" strokeWidth="2" />
       <text x={bx+bW/2} y={groundY-bH/2+4} textAnchor="middle" fill="#2563eb" fontSize="11" fontWeight="700">{m}kg</text>
       {F > 0 && <>
@@ -47,14 +47,14 @@ function SceneOriz({ m, F, mu, t, a, v0 }: { m: number; F: number; mu: number; t
         <text x={bx+bW+fA/2} y={groundY-bH/2-7} textAnchor="middle" fill="#e05600" fontSize="9">F={F}N</text>
       </>}
       {fAttr > 0 && <>
-        <line x1={bx} y1={groundY-bH/2} x2={bx-fAtt} y2={groundY-bH/2} stroke="#b87800" strokeWidth="2.5" markerEnd="url(#aF)" />
-        <text x={bx-fAtt/2} y={groundY-bH/2-7} textAnchor="middle" fill="#b87800" fontSize="9">f={fAttr.toFixed(1)}N</text>
+        <line x1={bx} y1={groundY-bH/2} x2={bx-fAtt} y2={groundY-bH/2} stroke="#c98a00" strokeWidth="2.5" markerEnd="url(#aF)" />
+        <text x={bx-fAtt/2} y={groundY-bH/2-7} textAnchor="middle" fill="#c98a00" fontSize="9">f={fAttr.toFixed(1)}N</text>
       </>}
       <defs>
         <marker id="aA" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#e05600" /></marker>
-        <marker id="aF" markerWidth="7" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="7,0 0,3.5 7,7" fill="#b87800" /></marker>
+        <marker id="aF" markerWidth="7" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="7,0 0,3.5 7,7" fill="#c98a00" /></marker>
       </defs>
-      <text x={W/2} y={H-8} textAnchor="middle" fill="rgba(0,0,0,0.4)" fontSize="10">
+      <text x={W/2} y={H-8} textAnchor="middle" fill="var(--sim-text)" fontSize="10">
         a={a.toFixed(2)} m/s² · v={stateAt(a,v0,t).v.toFixed(2)} m/s · s={stateAt(a,v0,t).s.toFixed(2)} m
       </text>
     </svg>
@@ -81,20 +81,20 @@ function SceneIncl({ m, mu, theta, t, a, v0 }: { m: number; mu: number; theta: n
   const bCX = cx+bLen/6*nx, bCY = cy+bLen/6*ny
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg">
-      <polygon points={`${ox},${oy} ${ox+hyp},${oy-hyp*Math.tan(rad)} ${ox+hyp},${oy}`} fill="rgba(0,0,0,0.03)" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" />
-      <path d={`M${ox+30},${oy} A30,30 0 0,0 ${ox+30*cos},${oy-30*sin}`} fill="none" stroke="rgba(0,0,0,0.25)" strokeWidth="1" />
-      <text x={ox+38} y={oy-8} fill="rgba(0,0,0,0.45)" fontSize="11">{theta}°</text>
+      <polygon points={`${ox},${oy} ${ox+hyp},${oy-hyp*Math.tan(rad)} ${ox+hyp},${oy}`} fill="var(--sim-surface)" stroke="var(--sim-surface-stroke)" strokeWidth="1.5" />
+      <path d={`M${ox+30},${oy} A30,30 0 0,0 ${ox+30*cos},${oy-30*sin}`} fill="none" stroke="var(--sim-axis)" strokeWidth="1" />
+      <text x={ox+38} y={oy-8} fill="var(--sim-text)" fontSize="11">{theta}°</text>
       <polygon points={poly} fill="rgba(37,99,235,0.12)" stroke="#2563eb" strokeWidth="2" />
       <text x={bCX} y={bCY+4} textAnchor="middle" fill="#2563eb" fontSize="11" fontWeight="700">{m}kg</text>
-      <line x1={bCX} y1={bCY} x2={bCX} y2={bCY+35} stroke="#c62828" strokeWidth="2.5" markerEnd="url(#aW)" />
-      <line x1={bCX} y1={bCY} x2={bCX+nx*28} y2={bCY+ny*28} stroke="#2e7d32" strokeWidth="2.5" markerEnd="url(#aN)" />
+      <line x1={bCX} y1={bCY} x2={bCX} y2={bCY+35} stroke="#e04848" strokeWidth="2.5" markerEnd="url(#aW)" />
+      <line x1={bCX} y1={bCY} x2={bCX+nx*28} y2={bCY+ny*28} stroke="#2e9e4f" strokeWidth="2.5" markerEnd="url(#aN)" />
       {mu > 0 && <line x1={bCX} y1={bCY} x2={bCX-cos*20} y2={bCY+sin*20} stroke="#e05600" strokeWidth="2" markerEnd="url(#aFi)" />}
       <defs>
-        <marker id="aW" markerWidth="6" markerHeight="6" refX="3" refY="5" orient="auto"><polygon points="0,0 6,0 3,6" fill="#c62828" /></marker>
-        <marker id="aN" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto"><polygon points="0,6 6,6 3,0" fill="#2e7d32" /></marker>
+        <marker id="aW" markerWidth="6" markerHeight="6" refX="3" refY="5" orient="auto"><polygon points="0,0 6,0 3,6" fill="#e04848" /></marker>
+        <marker id="aN" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto"><polygon points="0,6 6,6 3,0" fill="#2e9e4f" /></marker>
         <marker id="aFi" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><polygon points="6,0 0,3 6,6" fill="#e05600" /></marker>
       </defs>
-      <text x={W/2} y={H-8} textAnchor="middle" fill="rgba(0,0,0,0.4)" fontSize="10">
+      <text x={W/2} y={H-8} textAnchor="middle" fill="var(--sim-text)" fontSize="10">
         a={a.toFixed(2)} m/s² · v={stateAt(a,v0,t).v.toFixed(2)} m/s · s={stateAt(a,v0,t).s.toFixed(2)} m
       </text>
     </svg>
@@ -173,8 +173,8 @@ export default function ApplicazioniCombinate() {
           <div><div style={{fontSize:'0.8rem',color:'var(--muted)',marginBottom:'4px'}}>v(t)</div><Graph points={ptsV} xLabel="t (s)" yLabel="v (m/s)" color="#2563eb" xMax={T_MAX} /></div>
           <div><div style={{fontSize:'0.8rem',color:'var(--muted)',marginBottom:'4px'}}>s(t)</div><Graph points={ptsS} xLabel="t (s)" yLabel="s (m)" color="#2e7d32" xMax={T_MAX} /></div>
         </div>
-        <div style={{marginTop:'0.75rem',padding:'0.6rem 0.9rem',background:'#eef7ee',borderRadius:8,border:'1px solid rgba(46,125,50,0.2)',fontSize:'0.85rem'}}>
-          <span style={{color:'#1b5e20'}}>K = ½mv² = {(0.5*m*v*v).toFixed(2)} J &nbsp;·&nbsp; W = Fᵗᵒᵗ·s = {(a*m*s).toFixed(2)} J</span>
+        <div style={{marginTop:'0.75rem',padding:'0.6rem 0.9rem',background:'var(--green-bg)',borderRadius:8,border:'1px solid rgba(46,125,50,0.2)',fontSize:'0.85rem'}}>
+          <span style={{color:'var(--green)'}}>K = ½mv² = {(0.5*m*v*v).toFixed(2)} J &nbsp;·&nbsp; W = Fᵗᵒᵗ·s = {(a*m*s).toFixed(2)} J</span>
         </div>
       </div>
       <Quiz title="Quiz — Applicazioni Combinate" questions={quizQ} />

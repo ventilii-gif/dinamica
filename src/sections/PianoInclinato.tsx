@@ -60,22 +60,22 @@ function InclinedScene({ theta, m, mu, v0, t }: { theta: number; m: number; mu: 
   const weightScale = 35, normScale = 28, frScale = 22
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="sim-svg">
-      <polygon points={`${ox},${oy} ${ex},${ey} ${ex},${oy}`} fill="rgba(0,0,0,0.03)" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" />
+      <polygon points={`${ox},${oy} ${ex},${ey} ${ex},${oy}`} fill="var(--sim-surface)" stroke="var(--sim-surface-stroke)" strokeWidth="1.5" />
       {mu > 0 && [...Array(10)].map((_, i) => {
         const px = ox + hyp*(0.05 + i*0.09)
         const py = oy - (px-ox)*Math.tan(rad)
-        return <line key={i} x1={px} y1={py} x2={px+6*sin} y2={py+6*cos} stroke="rgba(180,130,0,0.2)" strokeWidth="1" />
+        return <line key={i} x1={px} y1={py} x2={px+6*sin} y2={py+6*cos} stroke="rgba(180,130,0,0.4)" strokeWidth="1" />
       })}
-      <path d={`M ${ox+30},${oy} A 30,30 0 0,0 ${ox+30*Math.cos(rad)},${oy-30*Math.sin(rad)}`} fill="none" stroke="rgba(0,0,0,0.25)" strokeWidth="1" />
-      <text x={ox+38} y={oy-10} fill="rgba(0,0,0,0.45)" fontSize="11">{theta}°</text>
+      <path d={`M ${ox+30},${oy} A 30,30 0 0,0 ${ox+30*Math.cos(rad)},${oy-30*Math.sin(rad)}`} fill="none" stroke="var(--sim-axis)" strokeWidth="1" />
+      <text x={ox+38} y={oy-10} fill="var(--sim-text)" fontSize="11">{theta}°</text>
       <polygon points={poly} fill="rgba(37,99,235,0.12)" stroke="#2563eb" strokeWidth="2" />
       <text x={blockCX} y={blockCY+4} textAnchor="middle" fill="#2563eb" fontSize="11" fontWeight="700">{m}kg</text>
-      <line x1={blockCX} y1={blockCY} x2={blockCX} y2={blockCY+weightScale} stroke="#c62828" strokeWidth="2.5" markerEnd="url(#arrW)" />
-      <text x={blockCX+6} y={blockCY+weightScale/2} fill="#c62828" fontSize="9">P</text>
-      <line x1={blockCX} y1={blockCY} x2={blockCX+nx*normScale} y2={blockCY+ny*normScale} stroke="#2e7d32" strokeWidth="2.5" markerEnd="url(#arrN)" />
-      <text x={blockCX+nx*normScale+4} y={blockCY+ny*normScale-4} fill="#2e7d32" fontSize="9">N</text>
-      <line x1={blockCX} y1={blockCY} x2={blockCX+cos*frScale} y2={blockCY-sin*frScale} stroke="#1565c0" strokeWidth="1.5" strokeDasharray="4 2" markerEnd="url(#arrP)" />
-      <text x={blockCX+cos*frScale+4} y={blockCY-sin*frScale} fill="#1565c0" fontSize="8">F∥</text>
+      <line x1={blockCX} y1={blockCY} x2={blockCX} y2={blockCY+weightScale} stroke="#e04848" strokeWidth="2.5" markerEnd="url(#arrW)" />
+      <text x={blockCX+6} y={blockCY+weightScale/2} fill="#e04848" fontSize="9">P</text>
+      <line x1={blockCX} y1={blockCY} x2={blockCX+nx*normScale} y2={blockCY+ny*normScale} stroke="#2e9e4f" strokeWidth="2.5" markerEnd="url(#arrN)" />
+      <text x={blockCX+nx*normScale+4} y={blockCY+ny*normScale-4} fill="#2e9e4f" fontSize="9">N</text>
+      <line x1={blockCX} y1={blockCY} x2={blockCX+cos*frScale} y2={blockCY-sin*frScale} stroke="#3b82f6" strokeWidth="1.5" strokeDasharray="4 2" markerEnd="url(#arrP)" />
+      <text x={blockCX+cos*frScale+4} y={blockCY-sin*frScale} fill="#3b82f6" fontSize="8">F∥</text>
       {mu > 0 && aDown !== 0 && (
         <>
           <line x1={blockCX} y1={blockCY} x2={blockCX-cos*frScale*0.8} y2={blockCY+sin*frScale*0.8} stroke="#e05600" strokeWidth="2" markerEnd="url(#arrFr)" />
@@ -83,12 +83,12 @@ function InclinedScene({ theta, m, mu, v0, t }: { theta: number; m: number; mu: 
         </>
       )}
       <defs>
-        <marker id="arrW" markerWidth="6" markerHeight="6" refX="3" refY="5" orient="auto"><polygon points="0,0 6,0 3,6" fill="#c62828" /></marker>
-        <marker id="arrN" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto"><polygon points="0,6 6,6 3,0" fill="#2e7d32" /></marker>
-        <marker id="arrP" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0,0 6,3 0,6" fill="#1565c0" /></marker>
+        <marker id="arrW" markerWidth="6" markerHeight="6" refX="3" refY="5" orient="auto"><polygon points="0,0 6,0 3,6" fill="#e04848" /></marker>
+        <marker id="arrN" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto"><polygon points="0,6 6,6 3,0" fill="#2e9e4f" /></marker>
+        <marker id="arrP" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0,0 6,3 0,6" fill="#3b82f6" /></marker>
         <marker id="arrFr" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><polygon points="6,0 0,3 6,6" fill="#e05600" /></marker>
       </defs>
-      <text x={W/2} y={H-8} textAnchor="middle" fill="rgba(0,0,0,0.4)" fontSize="10">
+      <text x={W/2} y={H-8} textAnchor="middle" fill="var(--sim-text)" fontSize="10">
         a = {aDown.toFixed(2)} m/s² · N = {N.toFixed(1)} N · F∥ = {Fpar.toFixed(1)} N · Fₐ = {Fattr.toFixed(1)} N
       </text>
     </svg>
