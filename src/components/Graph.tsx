@@ -38,16 +38,16 @@ export default function Graph({
   const hasNeg = yMin < -0.01
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', display: 'block', border: '1px solid #e4e7ef', borderRadius: 8, background: '#fbfcfe' }}>
-      <rect x={PAD.left} y={PAD.top} width={iW} height={iH} fill="#f4f5f8" rx="4" />
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', display: 'block', border: '1px solid var(--border)', borderRadius: 8, background: 'var(--sim-bg)' }}>
+      <rect x={PAD.left} y={PAD.top} width={iW} height={iH} fill="var(--sim-plot)" rx="4" />
       {hasNeg && (
         <line x1={PAD.left} y1={yZero} x2={PAD.left + iW} y2={yZero}
-          stroke="rgba(0,0,0,0.15)" strokeWidth="1" strokeDasharray="4 3" />
+          stroke="var(--sim-axis-soft)" strokeWidth="1" strokeDasharray="4 3" />
       )}
       <line x1={PAD.left} y1={PAD.top + iH} x2={PAD.left + iW} y2={PAD.top + iH}
-        stroke="rgba(0,0,0,0.2)" strokeWidth="1" />
+        stroke="var(--sim-axis)" strokeWidth="1" />
       <line x1={PAD.left} y1={PAD.top} x2={PAD.left} y2={PAD.top + iH}
-        stroke="rgba(0,0,0,0.2)" strokeWidth="1" />
+        stroke="var(--sim-axis)" strokeWidth="1" />
       {points.length > 1 && (
         <path d={toPath(points)} fill="none" stroke={color} strokeWidth="2.5" strokeLinejoin="round" />
       )}
@@ -56,18 +56,18 @@ export default function Graph({
           strokeDasharray="6 3" strokeLinejoin="round" />
       )}
       <text x={PAD.left + iW / 2} y={H - 3} textAnchor="middle"
-        fill="rgba(0,0,0,0.45)" fontSize="10">{xLabel}</text>
+        fill="var(--sim-text)" fontSize="10">{xLabel}</text>
       <text x={12} y={PAD.top + iH / 2} textAnchor="middle"
-        fill="rgba(0,0,0,0.45)" fontSize="10"
+        fill="var(--sim-text)" fontSize="10"
         transform={`rotate(-90,12,${PAD.top + iH / 2})`}>{yLabel}</text>
       <text x={PAD.left - 4} y={PAD.top + 5} textAnchor="end"
-        fill="rgba(0,0,0,0.4)" fontSize="9">{yMax.toFixed(1)}</text>
+        fill="var(--sim-text)" fontSize="9">{yMax.toFixed(1)}</text>
       {hasNeg && (
         <text x={PAD.left - 4} y={PAD.top + iH} textAnchor="end"
-          fill="rgba(0,0,0,0.4)" fontSize="9">{yMin.toFixed(1)}</text>
+          fill="var(--sim-text)" fontSize="9">{yMin.toFixed(1)}</text>
       )}
       <text x={PAD.left + iW} y={PAD.top + iH + 14} textAnchor="middle"
-        fill="rgba(0,0,0,0.4)" fontSize="9">{xM.toFixed(0)}</text>
+        fill="var(--sim-text)" fontSize="9">{xM.toFixed(0)}</text>
     </svg>
   )
 }

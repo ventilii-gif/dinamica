@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import Home from './sections/Home'
 import LeggiNewton from './sections/LeggiNewton'
 import PianoOrizzontale from './sections/PianoOrizzontale'
@@ -7,6 +7,7 @@ import Attrito from './sections/Attrito'
 import ApplicazioniCombinate from './sections/ApplicazioniCombinate'
 
 export type Section = 'home' | 'newton' | 'orizzontale' | 'inclinato' | 'attrito' | 'applicazioni'
+type Theme = 'light' | 'dark'
 
 interface NavCtx { section: Section; setSection: (s: Section) => void }
 export const NavContext = createContext<NavCtx>({ section: 'home', setSection: () => {} })
@@ -21,14 +22,43 @@ const navItems: { key: Section; label: string; num?: string }[] = [
   { key: 'applicazioni', label: 'Applicazioni',         num: '5' },
 ]
 
+function getInitialTheme(): Theme {
+  try {
+    const saved = localStorage.getItem('theme')
+    if (saved === 'light' || saved === 'dark') return saved
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark'
+  } catch { /* ignore */ }
+  return 'light'
+}
+
+// Applica il tema prima del primo render per evitare il lampeggio
+const initialTheme = getInitialTheme()
+document.documentElement.setAttribute('data-theme', initialTheme)
+
 export default function App() {
   const [section, setSection] = useState<Section>('home')
+  const [theme, setTheme] = useState<Theme>(initialTheme)
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    try { localStorage.setItem('theme', theme) } catch { /* ignore */ }
+  }, [theme])
 
   return (
     <NavContext.Provider value={{ section, setSection }}>
       <header className="header">
-        <div className="header-brand">Principi della Dinamica</div>
-        <div className="header-sub">Fisica per il liceo &middot; teoria, simulazioni animate &amp; quiz</div>
+        <div>
+          <div className="header-brand">Principi della Dinamica</div>
+          <div className="header-sub">Fisica per il liceo &middot; teoria, simulazioni animate &amp; quiz</div>
+        </div>
+        <button
+          className="theme-toggle"
+          onClick={() => setTheme(t => (t === 'dark' ? 'light' : 'dark'))}
+          aria-label={theme === 'dark' ? 'Passa al tema chiaro' : 'Passa al tema scuro'}
+          title="Cambia tema (il tema scuro riduce il consumo su schermi OLED)"
+        >
+          {theme === 'dark' ? 'Tema chiaro' : 'Tema scuro'}
+        </button>
       </header>
 
       <nav className="nav">
