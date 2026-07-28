@@ -590,7 +590,7 @@ input[type=range] {
 .home-hero p {
   font-size: 1rem;
   color: var(--muted);
-  max-width: 560px;
+  max-width: 620px;
   line-height: 1.65;
   margin-bottom: 1.25rem;
 }
@@ -640,6 +640,82 @@ input[type=range] {
 .home-card-title { font-weight: 700; color: var(--text); font-size: 0.97rem; }
 .home-card-sub { color: var(--muted); font-size: 0.82rem; }
 
+/* Elenco obiettivi */
+.goal-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 0.2rem;
+}
+
+.goal-list li {
+  position: relative;
+  padding-left: 1.4rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.goal-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--primary);
+}
+
+/* Passi numerati */
+.step-grid { display: grid; gap: 0.5rem; margin-top: 0.6rem; }
+
+.step-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.65rem 0.85rem;
+  background: var(--soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.step-title { color: var(--primary); font-weight: 600; font-size: 0.9rem; }
+.step-desc { color: var(--muted); font-size: 0.83rem; margin-top: 2px; line-height: 1.5; }
+
+/* Chip di collegamento */
+.link-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+
+.link-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 1.05rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.link-chip:hover { background: var(--border); border-color: var(--primary); }
+
 /* Timeline storia */
 .timeline { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.7rem; }
 
@@ -647,10 +723,10 @@ input[type=range] {
 
 .timeline-year {
   flex: 0 0 auto;
-  min-width: 82px;
+  min-width: 92px;
   font-weight: 800;
   color: var(--primary);
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   padding-top: 2px;
 }
 
@@ -662,7 +738,7 @@ input[type=range] {
 .timeline-item:last-child .timeline-body { padding-bottom: 0; }
 
 .timeline-name { font-weight: 700; color: var(--text); font-size: 0.95rem; }
-.timeline-text { color: var(--muted); font-size: 0.86rem; margin-top: 0.15rem; line-height: 1.5; }
+.timeline-text { color: var(--muted); font-size: 0.86rem; margin-top: 0.15rem; line-height: 1.55; }
 
 /* Section fade in */
 .section-enter {
@@ -680,5 +756,7 @@ input[type=range] {
   .card, .sim-card, .quiz-card, .ex-card { padding: 1rem; }
   .ctrl-row { grid-template-columns: 110px 1fr 65px; }
   .home-hero { padding: 1.5rem 0.5rem 1rem; }
-  .timeline-year { min-width: 64px; font-size: 0.8rem; }
+  .timeline-item { flex-direction: column; gap: 0.1rem; }
+  .timeline-year { min-width: 0; font-size: 0.8rem; }
+  .timeline-body { padding-left: 0.85rem; }
 }
