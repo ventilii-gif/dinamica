@@ -6,15 +6,15 @@ import PianoInclinato from './sections/PianoInclinato'
 import Attrito from './sections/Attrito'
 import ApplicazioniCombinate from './sections/ApplicazioniCombinate'
 
-export type Section = 'home' | 'newton' | 'orizzontale' | 'inclinato' | 'attrito' | 'applicazioni'
+export type Section = 'intro' | 'newton' | 'orizzontale' | 'inclinato' | 'attrito' | 'applicazioni'
 type Theme = 'light' | 'dark'
 
 interface NavCtx { section: Section; setSection: (s: Section) => void }
-export const NavContext = createContext<NavCtx>({ section: 'home', setSection: () => {} })
+export const NavContext = createContext<NavCtx>({ section: 'intro', setSection: () => {} })
 export const useNav = () => useContext(NavContext)
 
 const navItems: { key: Section; label: string; num?: string }[] = [
-  { key: 'home',         label: 'Home' },
+  { key: 'intro',        label: 'Introduzione' },
   { key: 'newton',       label: 'Leggi di Newton',      num: '1' },
   { key: 'orizzontale',  label: 'Piano Orizzontale',    num: '2' },
   { key: 'inclinato',    label: 'Piano Inclinato',      num: '3' },
@@ -36,7 +36,7 @@ const initialTheme = getInitialTheme()
 document.documentElement.setAttribute('data-theme', initialTheme)
 
 export default function App() {
-  const [section, setSection] = useState<Section>('home')
+  const [section, setSection] = useState<Section>('intro')
   const [theme, setTheme] = useState<Theme>(initialTheme)
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function App() {
       <header className="header">
         <div>
           <div className="header-brand">Principi della Dinamica</div>
-          <div className="header-sub">Fisica per il liceo &middot; teoria, simulazioni animate &amp; quiz</div>
+          <div className="header-sub">Fisica per il liceo &middot; teoria, simulazioni, esercizi &amp; quiz</div>
         </div>
         <button
           className="theme-toggle"
@@ -68,14 +68,14 @@ export default function App() {
             className={`nav-btn${section === key ? ' active' : ''}`}
             onClick={() => setSection(key)}
           >
-            <span className="nav-num">{num ?? '•'}</span>
+            {num && <span className="nav-num">{num}</span>}
             {label}
           </button>
         ))}
       </nav>
 
       <main key={section} className="section-enter">
-        {section === 'home'         && <Home onNavigate={setSection} />}
+        {section === 'intro'        && <Home onNavigate={setSection} />}
         {section === 'newton'       && <LeggiNewton />}
         {section === 'orizzontale'  && <PianoOrizzontale />}
         {section === 'inclinato'    && <PianoInclinato />}
