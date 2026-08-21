@@ -60,23 +60,27 @@ function Scene({ theta, m, mu, v0, t }: { theta: number; m: number; mu: number; 
       <text x={ox+38} y={oy-10} fill="var(--sim-text)" fontSize="11">{theta}°</text>
       <polygon points={pts} fill="rgba(37,99,235,0.12)" stroke="#2563eb" strokeWidth="2" />
       <text x={bx} y={by+4} textAnchor="middle" fill="#2563eb" fontSize="11" fontWeight="700">{m}kg</text>
-      <line x1={bx} y1={by} x2={bx} y2={by+wS} stroke="#e04848" strokeWidth="2.5" markerEnd="url(#mW)" />
+      {/* Peso P: sempre verticale verso il basso */}
+      <line x1={bx} y1={by} x2={bx} y2={by+wS} stroke="#e04848" strokeWidth="2.5" markerEnd="url(#mArrow)" />
       <text x={bx+6} y={by+wS/2} fill="#e04848" fontSize="9">P</text>
-      <line x1={bx} y1={by} x2={bx+nx*nS} y2={by+ny*nS} stroke="#2e9e4f" strokeWidth="2.5" markerEnd="url(#mN)" />
+      {/* Normale N: perpendicolare al piano, verso l'esterno */}
+      <line x1={bx} y1={by} x2={bx+nx*nS} y2={by+ny*nS} stroke="#2e9e4f" strokeWidth="2.5" markerEnd="url(#mArrowN)" />
       <text x={bx+nx*nS+4} y={by+ny*nS-4} fill="#2e9e4f" fontSize="9">N</text>
-      <line x1={bx} y1={by} x2={bx+cos*fS} y2={by-sin*fS} stroke="#3b82f6" strokeWidth="1.5" strokeDasharray="4 2" markerEnd="url(#mP)" />
-      <text x={bx+cos*fS+4} y={by-sin*fS} fill="#3b82f6" fontSize="8">F∥</text>
+      {/* F∥: componente del peso lungo il piano, verso il BASSO del piano */}
+      <line x1={bx} y1={by} x2={bx-cos*fS} y2={by+sin*fS} stroke="#3b82f6" strokeWidth="1.5" strokeDasharray="4 2" markerEnd="url(#mArrowP)" />
+      <text x={bx-cos*fS-12} y={by+sin*fS+8} fill="#3b82f6" fontSize="8">F∥</text>
+      {/* Attrito Fₐ: risale il piano, opponendosi alla discesa */}
       {mu > 0 && aDown !== 0 && (
         <>
-          <line x1={bx} y1={by} x2={bx-cos*fS*0.8} y2={by+sin*fS*0.8} stroke="#e05600" strokeWidth="2" markerEnd="url(#mF)" />
-          <text x={bx-cos*fS-4} y={by+sin*fS+10} fill="#e05600" fontSize="8">Fₐ</text>
+          <line x1={bx} y1={by} x2={bx+cos*fS*0.8} y2={by-sin*fS*0.8} stroke="#e05600" strokeWidth="2" markerEnd="url(#mArrowF)" />
+          <text x={bx+cos*fS+2} y={by-sin*fS-2} fill="#e05600" fontSize="8">Fₐ</text>
         </>
       )}
       <defs>
-        <marker id="mW" markerWidth="6" markerHeight="6" refX="3" refY="5" orient="auto"><polygon points="0,0 6,0 3,6" fill="#e04848" /></marker>
-        <marker id="mN" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto"><polygon points="0,6 6,6 3,0" fill="#2e9e4f" /></marker>
-        <marker id="mP" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0,0 6,3 0,6" fill="#3b82f6" /></marker>
-        <marker id="mF" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><polygon points="6,0 0,3 6,6" fill="#e05600" /></marker>
+        <marker id="mArrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#e04848" /></marker>
+        <marker id="mArrowN" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#2e9e4f" /></marker>
+        <marker id="mArrowP" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#3b82f6" /></marker>
+        <marker id="mArrowF" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#e05600" /></marker>
       </defs>
       <text x={W/2} y={H-8} textAnchor="middle" fill="var(--sim-text)" fontSize="10">
         a = {aDown.toFixed(2)} m/s² · N = {N.toFixed(1)} N · F∥ = {Fpar.toFixed(1)} N · Fₐ = {Fattr.toFixed(1)} N

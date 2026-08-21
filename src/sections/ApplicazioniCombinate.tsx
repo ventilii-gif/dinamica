@@ -53,7 +53,7 @@ function SceneOriz({ m, F, mu, t, a, v0 }: { m: number; F: number; mu: number; t
       )}
       <defs>
         <marker id="oA" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#e05600" /></marker>
-        <marker id="oF" markerWidth="7" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="7,0 0,3.5 7,7" fill="#c98a00" /></marker>
+        <marker id="oF" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#c98a00" /></marker>
       </defs>
       <text x={W/2} y={H-8} textAnchor="middle" fill="var(--sim-text)" fontSize="10">
         a={a.toFixed(2)} m/s² · v={v.toFixed(2)} m/s · s={s.toFixed(2)} m
@@ -87,13 +87,16 @@ function SceneIncl({ m, mu, theta, t, a, v0 }: { m: number; mu: number; theta: n
       <text x={ox+38} y={oy-8} fill="var(--sim-text)" fontSize="11">{theta}°</text>
       <polygon points={poly} fill="rgba(37,99,235,0.12)" stroke="#2563eb" strokeWidth="2" />
       <text x={bx} y={by+4} textAnchor="middle" fill="#2563eb" fontSize="11" fontWeight="700">{m}kg</text>
-      <line x1={bx} y1={by} x2={bx} y2={by+35} stroke="#e04848" strokeWidth="2.5" markerEnd="url(#iW)" />
-      <line x1={bx} y1={by} x2={bx+nx*28} y2={by+ny*28} stroke="#2e9e4f" strokeWidth="2.5" markerEnd="url(#iN)" />
-      {mu > 0 && <line x1={bx} y1={by} x2={bx-cos*20} y2={by+sin*20} stroke="#e05600" strokeWidth="2" markerEnd="url(#iF)" />}
+      {/* Peso: verticale verso il basso */}
+      <line x1={bx} y1={by} x2={bx} y2={by+35} stroke="#e04848" strokeWidth="2.5" markerEnd="url(#iArrow)" />
+      {/* Normale: perpendicolare al piano, verso l'esterno */}
+      <line x1={bx} y1={by} x2={bx+nx*28} y2={by+ny*28} stroke="#2e9e4f" strokeWidth="2.5" markerEnd="url(#iArrowN)" />
+      {/* Attrito: risale il piano opponendosi alla discesa */}
+      {mu > 0 && <line x1={bx} y1={by} x2={bx+cos*20} y2={by-sin*20} stroke="#e05600" strokeWidth="2" markerEnd="url(#iArrowF)" />}
       <defs>
-        <marker id="iW" markerWidth="6" markerHeight="6" refX="3" refY="5" orient="auto"><polygon points="0,0 6,0 3,6" fill="#e04848" /></marker>
-        <marker id="iN" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto"><polygon points="0,6 6,6 3,0" fill="#2e9e4f" /></marker>
-        <marker id="iF" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><polygon points="6,0 0,3 6,6" fill="#e05600" /></marker>
+        <marker id="iArrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#e04848" /></marker>
+        <marker id="iArrowN" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#2e9e4f" /></marker>
+        <marker id="iArrowF" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#e05600" /></marker>
       </defs>
       <text x={W/2} y={H-8} textAnchor="middle" fill="var(--sim-text)" fontSize="10">
         a={a.toFixed(2)} m/s² · v={v.toFixed(2)} m/s · s={s.toFixed(2)} m
