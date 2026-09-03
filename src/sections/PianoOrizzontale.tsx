@@ -140,6 +140,24 @@ const esercizi: Exercise[] = [
     ],
     solution: 'Fₐ = μ·m·g = 0,2 × 10 × 9,8 = 19,6 N\nF applicata = 19,6 N\nF_netta = 19,6 − 19,6 = 0 N  ⇒  a = 0\n\nIl blocco si muove di MOTO RETTILINEO UNIFORME: mantiene costante la velocità che aveva. È l’applicazione diretta della prima legge di Newton: forza netta nulla non significa corpo fermo, ma velocità costante.',
   },
+  {
+    q: 'Una cassa di 20 kg è tirata su un pavimento orizzontale da una fune inclinata di 30° sopra l’orizzontale, con tensione T = 50 N. Il coefficiente d’attrito dinamico è μ = 0,15. Calcola la forza normale e l’accelerazione della cassa. (g = 9,8 m/s²; sin30° = 0,5; cos30° = 0,866)',
+    hints: [
+      'Scomponi la tensione in due componenti: orizzontale T·cos30° (che trascina) e verticale T·sin30° (che solleva).',
+      'La componente verticale ALLEGGERISCE la cassa: N = m·g − T·sin30°, non più semplicemente m·g.',
+      'Lungo l’orizzontale: T·cos30° − μ·N = m·a.',
+    ],
+    solution: 'Componenti della tensione:\nT_x = T·cos30° = 50 × 0,866 = 43,3 N\nT_y = T·sin30° = 50 × 0,5 = 25 N\n\nForza normale (ridotta dalla componente verticale):\nN = m·g − T_y = 20 × 9,8 − 25 = 196 − 25 = 171 N\n\nAttrito: Fₐ = μ·N = 0,15 × 171 = 25,65 N\nAccelerazione: a = (T_x − Fₐ)/m = (43,3 − 25,65)/20 ≈ 0,88 m/s²\n\nTirare obliquamente verso l’alto riduce la normale e quindi l’attrito: ecco perché conviene sollevare un po’ il carico mentre lo si traina.',
+  },
+  {
+    q: 'Un blocco di 8 kg, fermo su un pavimento con μ = 0,30, viene spinto con una forza orizzontale di 40 N per 3 s; poi la forza viene tolta. Calcola la velocità raggiunta all’istante in cui la spinta cessa e per quanto tempo il blocco continua a scivolare prima di fermarsi. (g = 9,8 m/s²)',
+    hints: [
+      'Il moto ha due fasi. Fase 1 (con la spinta): a₁ = (F − μ·m·g)/m; la velocità finale è v = a₁·t.',
+      'Quando la forza viene tolta resta solo l’attrito, che frena: a₂ = −μ·g.',
+      'Nella fase 2 il tempo di arresto si ricava da v = |a₂|·t′, imponendo velocità finale nulla.',
+    ],
+    solution: 'FASE 1 — con la spinta\nFₐ = μ·m·g = 0,30 × 8 × 9,8 = 23,52 N\na₁ = (40 − 23,52)/8 = 16,48/8 = 2,06 m/s²\nv = a₁·t = 2,06 × 3 = 6,18 m/s\n\nFASE 2 — solo attrito\na₂ = −μ·g = −0,30 × 9,8 = −2,94 m/s²\nt′ = v/|a₂| = 6,18/2,94 ≈ 2,10 s\n\nIl blocco raggiunge 6,18 m/s e poi scivola ancora per circa 2,1 s prima di fermarsi.',
+  },
 ]
 
 function Teoria() {

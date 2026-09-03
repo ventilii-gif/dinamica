@@ -116,6 +116,24 @@ const esercizi: Exercise[] = [
     ],
     solution: 'Peso e normale agiscono entrambi SULLO STESSO corpo (il libro): sono forze che si bilanciano per la prima legge, non una coppia azione-reazione.\n\nLe vere coppie azione-reazione sono:\n• la Terra attira il libro (peso) ↔ il libro attira la Terra con forza uguale e contraria;\n• il tavolo spinge il libro verso l’alto (normale) ↔ il libro preme sul tavolo verso il basso.\n\nOgni coppia è formata da forze applicate a corpi diversi.',
   },
+  {
+    q: 'Due blocchi a contatto, m₁ = 3 kg e m₂ = 2 kg, sono spinti insieme su un piano orizzontale liscio da una forza F = 25 N applicata su m₁. Calcola l’accelerazione comune e la forza di contatto che m₁ esercita su m₂.',
+    hints: [
+      'I due blocchi si muovono insieme: trattali prima come un unico corpo di massa m₁ + m₂ per trovare l’accelerazione.',
+      'a = F / (m₁ + m₂). La forza di contatto è l’unica forza orizzontale che agisce sul secondo blocco.',
+      'Isola m₂ e applica la seconda legge solo a lui: F_contatto = m₂ · a.',
+    ],
+    solution: 'Sistema completo: a = F/(m₁+m₂) = 25/(3+2) = 5 m/s²\nForza di contatto su m₂: F_c = m₂·a = 2 × 5 = 10 N\n\nVerifica su m₁: F − F_c = 25 − 10 = 15 N = m₁·a = 3 × 5 = 15 N ✓\nLa forza di contatto (10 N) è minore di F perché deve accelerare solo 2 kg dei 5 kg totali.',
+  },
+  {
+    q: 'Un paracadutista di 80 kg scende a velocità costante (velocità limite). Che cosa si può dire della forza netta su di lui? Quanto valgono la resistenza dell’aria e la sua accelerazione? (g = 9,8 m/s²)',
+    hints: [
+      '«Velocità costante» è la chiave: rileggi l’enunciato della prima legge di Newton.',
+      'Se la velocità non cambia, l’accelerazione è nulla e quindi la forza netta è zero.',
+      'Forza netta nulla significa che la resistenza dell’aria bilancia esattamente il peso.',
+    ],
+    solution: 'Velocità costante ⇒ a = 0 ⇒ forza netta = 0 (1ª legge di Newton)\nQuindi la resistenza dell’aria eguaglia il peso:\nR = P = m·g = 80 × 9,8 = 784 N\na = 0\n\nÈ un caso di equilibrio dinamico: il corpo si muove ma non accelera, perché le forze si bilanciano.',
+  },
 ]
 
 function Teoria() {
