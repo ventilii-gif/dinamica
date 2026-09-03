@@ -67,8 +67,8 @@ function Blocco({ m, muS, muD, Fapp }: { m: number; muS: number; muD: number; Fa
       )}
       <defs>
         <marker id="mA" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#c98a00" /></marker>
-        <marker id="mS" markerWidth="7" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="7,0 0,3.5 7,7" fill="#2e9e4f" /></marker>
-        <marker id="mK" markerWidth="7" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="7,0 0,3.5 7,7" fill="#e05600" /></marker>
+        <marker id="mS" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#2e9e4f" /></marker>
+        <marker id="mK" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#e05600" /></marker>
       </defs>
       <text x={W/2} y={H-8} textAnchor="middle" fontSize="12" fontWeight="700" fill={moving?'#e05600':'#2e9e4f'}>
         {moving?'▶ IN MOTO (attrito cinetico)':'■ FERMO (attrito statico)'}
@@ -133,6 +133,24 @@ const esercizi: Exercise[] = [
       'Considera che la gomma è deformabile: oltre all’attrito “classico” interviene anche l’adesione molecolare e l’incastro con le asperità.',
     ],
     solution: 'Il modello di Coulomb (Fₐ = μ·N, indipendente dall’area) vale bene per solidi rigidi, ma la gomma non lo è.\n\nCon pneumatici larghi:\n• la pressione al suolo diminuisce, la gomma si deforma meno e non “strappa”;\n• aumenta la superficie di adesione molecolare, che non rientra nel modello semplice;\n• il calore generato si distribuisce su più superficie, evitando il degrado della mescola;\n• l’usura è più uniforme e il grip resta costante più a lungo.\n\nNon è quindi il μ a cambiare: cambiano le condizioni fisiche che rendono valido (o no) il modello.',
+  },
+  {
+    q: 'Una cassa è appoggiata sul cassone di un camion; il coefficiente d’attrito statico fra cassa e cassone è μₛ = 0,4. Qual è la massima decelerazione che il camion può avere in frenata senza che la cassa scivoli in avanti? (g = 9,8 m/s²)',
+    hints: [
+      'In frenata l’unica forza orizzontale che può rallentare la cassa è l’attrito statico del cassone.',
+      'L’attrito statico disponibile ha un massimo: Fₛ,max = μₛ·N = μₛ·m·g.',
+      'Al limite serve tutto l’attrito per decelerare la cassa: μₛ·m·g = m·a. La massa si semplifica.',
+    ],
+    solution: 'Perché la cassa deceleri insieme al camion serve una forza F = m·a, fornita dall’attrito.\nMassimo attrito disponibile: Fₛ,max = μₛ·m·g\nAl limite: μₛ·m·g = m·a ⇒ a = μₛ·g = 0,4 × 9,8 = 3,92 m/s²\n\nSe il camion frena più bruscamente di 3,92 m/s² la cassa scivola in avanti. Il risultato non dipende dalla massa: vale per qualunque oggetto con quel μₛ.',
+  },
+  {
+    q: 'Un libro di 0,8 kg è tenuto fermo contro una parete verticale premendolo con una forza orizzontale. Se μₛ = 0,5 fra libro e parete, qual è la forza minima con cui devi premere perché il libro non scivoli? (g = 9,8 m/s²)',
+    hints: [
+      'Sul libro agiscono tre forze: il peso (verso il basso), la normale della parete (orizzontale) e l’attrito (verticale). Che cosa deve reggere il peso?',
+      'L’attrito verticale deve eguagliare il peso: Fₐ = m·g. Ma non può superare μₛ·N.',
+      'La normale è proprio la tua spinta: N = F. Imponi μₛ·F ≥ m·g e ricava F.',
+    ],
+    solution: 'Il libro non cade se l’attrito verticale regge il peso:\nFₐ = m·g = 0,8 × 9,8 = 7,84 N\nMa Fₐ ≤ μₛ·N e la normale è la spinta: N = F.\nCondizione: μₛ·F ≥ m·g ⇒ F ≥ m·g/μₛ = 7,84/0,5 = 15,68 N\n\nServe premere con almeno 15,68 N, circa il doppio del peso del libro. Qui l’attrito agisce in verticale: la sua direzione dipende dal moto imminente, non da un asse prefissato.',
   },
 ]
 

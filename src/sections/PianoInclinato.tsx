@@ -146,6 +146,24 @@ const esercizi: Exercise[] = [
     ],
     solution: 'tan40° = 0,643/0,766 ≈ 0,84 = μ\n\nSiamo esattamente al caso limite. Verifica con l’accelerazione:\na = g(sin40° − μ·cos40°) = 9,8 × (0,643 − 0,84 × 0,766) = 9,8 × (0,643 − 0,643) = 0\n\nIl blocco resta FERMO in equilibrio precario: l’attrito bilancia esattamente la componente del peso. Basterebbe un angolo appena maggiore, o una lieve vibrazione, per farlo scivolare.',
   },
+  {
+    q: 'Uno sciatore parte da fermo su un pendio inclinato di 15° con coefficiente d’attrito μ = 0,08. Che velocità raggiunge dopo aver percorso 100 m lungo il pendio? (g = 9,8 m/s²; sin15° = 0,259; cos15° = 0,966)',
+    hints: [
+      'Calcola prima l’accelerazione lungo il pendio: a = g·(sinθ − μ·cosθ).',
+      'Il moto è uniformemente accelerato da fermo: usa v² = v₀² + 2·a·s con v₀ = 0.',
+      'Attenzione: i 100 m sono misurati LUNGO il pendio, non in orizzontale.',
+    ],
+    solution: 'a = g(sin15° − μ·cos15°) = 9,8 × (0,259 − 0,08 × 0,966)\na = 9,8 × (0,259 − 0,077) = 9,8 × 0,182 ≈ 1,78 m/s²\nv² = 2·a·s = 2 × 1,78 × 100 = 356 ⇒ v = √356 ≈ 18,9 m/s\n\n18,9 m/s corrispondono a circa 68 km/h: una velocità realistica per uno sciatore su un pendio dolce.',
+  },
+  {
+    q: 'In un esperimento si misura che un blocco, lasciato libero su un piano inclinato di 20°, scende con accelerazione di 1,5 m/s². Ricava il coefficiente d’attrito dinamico. (g = 9,8 m/s²; sin20° = 0,342; cos20° = 0,940)',
+    hints: [
+      'Parti dalla formula a = g·(sinθ − μ·cosθ) e considera μ come l’unica incognita.',
+      'Isola il termine con μ: μ·cosθ = sinθ − a/g.',
+      'Dividi per cosθ per ottenere μ.',
+    ],
+    solution: 'a = g(sinθ − μ·cosθ) ⇒ μ = (sinθ − a/g)/cosθ\nμ = (0,342 − 1,5/9,8)/0,940 = (0,342 − 0,153)/0,940 = 0,189/0,940 ≈ 0,20\n\nÈ il metodo sperimentale per misurare μ: si misurano l’angolo e l’accelerazione di discesa e si ricava il coefficiente.',
+  },
 ]
 
 function Teoria() {
