@@ -46,4 +46,22 @@ export const esercizi: Exercise[] = [
     ],
     solution: 'VIA CINEMATICA\na = F/m = 20/5 = 4 m/s^2\nv^2 = 2*a*s = 2 x 4 x 8 = 64  =>  v = 8 m/s\n\nVIA ENERGETICA\nW = F*s = 20 x 8 = 160 J\nW = 0,5*m*v^2  =>  160 = 0,5 x 5 x v^2 = 2,5*v^2\nv^2 = 64  =>  v = 8 m/s\n\nI due metodi coincidono, come deve essere. Il metodo energetico e spesso piu rapido quando non interessa il tempo.',
   },
+  {
+    q: 'Un blocco scende da fermo lungo un piano inclinato liscio di 30 gradi per 5 m, poi prosegue su un tratto orizzontale con coefficiente d attrito mu = 0,25. Quanto spazio percorre sul tratto orizzontale prima di fermarsi? (g = 9,8 m/s^2)',
+    hints: [
+      'Il problema ha due fasi: prima la discesa senza attrito, poi la frenata orizzontale. Studiale separatamente.',
+      'Fase 1: con a = g*sin30 trova la velocita in fondo al piano usando v^2 = 2*a*s1.',
+      'Fase 2: quella velocita viene annullata dall attrito. Col metodo energetico 0,5*m*v^2 = mu*m*g*s2 la massa si semplifica.',
+    ],
+    solution: 'FASE 1 - piano liscio\na1 = g*sin30 = 9,8 x 0,5 = 4,9 m/s^2\nv^2 = 2*a1*s1 = 2 x 4,9 x 5 = 49  =>  v = 7 m/s\n\nFASE 2 - tratto orizzontale con attrito\n0,5*m*v^2 = mu*m*g*s2  =>  s2 = v^2/(2*mu*g)\ns2 = 49/(2 x 0,25 x 9,8) = 49/4,9 = 10 m\n\nIl blocco percorre 10 m prima di fermarsi. La massa non compare in nessuna delle due fasi.',
+  },
+  {
+    q: 'Un blocco di 4 kg e appoggiato su un tavolo orizzontale (mu = 0,20) ed e collegato, tramite una fune che passa su una carrucola sul bordo, a un secondo blocco di 3 kg appeso nel vuoto. Trova l accelerazione del sistema e la tensione della fune. (g = 9,8 m/s^2)',
+    hints: [
+      'I due blocchi sono legati dalla stessa fune: hanno la stessa accelerazione a e la stessa tensione T.',
+      'Blocco appeso (3 kg): m2*g - T = m2*a. Blocco sul tavolo (4 kg): T - mu*m1*g = m1*a.',
+      'Somma le due equazioni per eliminare T: m2*g - mu*m1*g = (m1+m2)*a, poi ricava a e infine T.',
+    ],
+    solution: 'Somma delle due equazioni:\nm2*g - mu*m1*g = (m1+m2)*a\na = g*(m2 - mu*m1)/(m1+m2) = 9,8 x (3 - 0,20 x 4)/7\na = 9,8 x (3 - 0,8)/7 = 9,8 x 2,2/7 = 3,08 m/s^2\n\nTensione (dal blocco appeso): T = m2*(g - a) = 3 x (9,8 - 3,08) = 3 x 6,72 = 20,16 N\n\nVerifica sul tavolo: T - mu*m1*g = 20,16 - 0,20 x 4 x 9,8 = 20,16 - 7,84 = 12,32 N = m1*a = 4 x 3,08 = 12,32 N. Coincide.',
+  },
 ]
